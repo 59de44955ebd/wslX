@@ -23,7 +23,7 @@ wslX is installed and runs solely in user space, it doesn't touch system registr
 *"Open with Linux..." context menu in Windows 11 Explorer*  
 ![wslX in Windows 11](screenshots/open-with-linux.png)
 
-*Screenshot of a WSl Arch desktop, edited in a WSL Debian GIMP, all running inside Windows 11 - isn't this beautiful? ;-)*  
+*Screenshot of a WSL Arch desktop, edited in a WSL Debian GIMP, all running inside Windows 11 - isn't this beautiful? ;-)*  
 ![Debian GIMP](screenshots/wsl_debian_gimp.png)
 ## Usage
 
