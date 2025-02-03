@@ -23,7 +23,7 @@ wslX is installed and runs solely in user space, it doesn't touch system registr
 *"Open with Linux..." context menu in Windows 11 Explorer*  
 ![wslX in Windows 11](screenshots/open-with-linux.png)
 
-*Screenshot of a WSL Arch desktop, edited in a WSL Debian GIMP, all running inside Windows 11 - isn't this beautiful? ;-)*  
+*Screenshot of a WSL Arch desktop, edited in a WSL Debian GIMP, all running inside Windows 11 - isn't this beautiful? ;-)*   
 ![Debian GIMP](screenshots/wsl_debian_gimp.png)
 ## Usage
 
@@ -56,6 +56,7 @@ in a CMD shell.
   wslX, when run normally from the startmenu, is configured for multi-window mode, adds a system tray icon and always uses display port :0. Those desktop session links instead use fullscreen mode without tray icon and always use display port :1.
 
   Use Alt+TAB to switch between the fullscreen Linux desktop and the Windows desktop. When logging out of the Linux desktop session you should automatically return to the Windows desktop, in case this fails use task manager to kill the "XWin.exe" process.
+* Unlike the original Cygwin/X XWin.exe, wslX doesn't try to write to a log file, and therefor can also be run from a read-only directory. All logging is instead written to the Windows debug console and can be analyzed using Sysinternals [DebugView](https://learn.microsoft.com/de-de/sysinternals/downloads/debugview).
 
 ## Configuration (system.XWinrc)
 wslX, like other X-servers, is configured by a plain text file called "system.XWinrc", which can be found at:   
