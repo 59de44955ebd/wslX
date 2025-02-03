@@ -7,14 +7,14 @@ It's an alternative for [VcXsrv](https://sourceforge.net/projects/vcxsrv/), [Xmi
 wslX is installed and runs solely in user space, it doesn't touch system registry (HKLM) and never requires elevated privileges.
 
 ## Features
-* Drag-and-drop support - this is wslX's core feature. If a Linux GUI app - e.g. a text editor, image viewer/editor, media player etc. - natively supports dropping files into its window, drag and drop actions from Windows explorer (including the desktop) are automatically converted into X drop events, and the dropped file paths are converted into WSL Linux paths (e.g. /mnt/c/...). Windows shortcut files (.LNK) are resolved on the fly. So you can quickly open files in WSL Linux GUI apps by dragging and dropping them from explorer.
+* Drag-and-drop support - this is wslX's core feature. If a Linux GUI app - e.g. a text editor, image viewer/editor, media player etc. - natively supports dropping files into its window, drag-and-drop actions from Windows explorer (including the desktop) are automatically converted to X drop events, and the dropped file paths are converted to WSL Linux paths (e.g. /mnt/c/...). Windows shortcut files (.LNK) are resolved on the fly. So you can quickly open files in WSL Linux GUI apps by dragging and dropping them from explorer.
 * Menu icons in the configurable system tray menu (see screenshot below)
 * Automatic creation of "Linux start menus" - including icons - for GUI apps detected in the currently installed WSL distro(s).
-* "Open with Linux..." context menu in Explorer that allows to open currently selected files directly in some Linux GUI app. This is not implemented as a shell extension, but just as single item added to HKEY_CURRENT_USER\Software\Classes\*\shell, and therefor lightweight regarding Explorer. The actual Linux menu is displayed by an independant process.
+* "Open with Linux..." context menu in Explorer that allows to open currently selected files directly in some Linux GUI app. This is not implemented as a shell extension, but just as single item added to HKEY_CURRENT_USER\Software\Classes\*\shell, and therefor lightweight regarding Explorer. The actual  menu is displayed by an independant process.
 * Dark window title bars of Linux GUI app windows, if either Windows currently uses a dark theme or dark mode is explitely activated in system.XWinrc (see below). This is missing in other Windows X-servers like VcXsrv or Xming.
 * Dark system tray menu (again if either Windows currently uses a dark theme or dark mode is explitely activated in system.XWinrc)
 * Listening for TCP/IP connections is by default activated and listing for unix domain sockets by default deactivated, which is the opposite of Cygwin/X's default server configuration (unix domain sockets don't work in between Cygwin's pseudo-Linux layer and WSL Linux).
-* PulseAudio for Windows is included and can be started/stopped via the system tray. Start it before using a Linux media player like e.g. Parole or VLC, otherwise audio wouldn't work.
+* PulseAudio for Windows is included and can be started/stopped via the system tray. Start it before using a Linux media player like e.g. Parole or VLC, otherwise audio doesn't work.
 
 ## Screenshots
 *wslX in system tray of Windows 11*  
