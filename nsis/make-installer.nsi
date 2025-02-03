@@ -115,7 +115,7 @@ Section "$%APP_NAME% (required)"
   WriteRegStr HKCU "Software\Classes\*\shell\open-with-linux" "MUIVerb" "Open with Linux..."
   WriteRegStr HKCU "Software\Classes\*\shell\open-with-linux" "NeverDefault" ""
   WriteRegStr HKCU "Software\Classes\*\shell\open-with-linux" "Icon" '"$INSTDIR\data\menus\wsl-open-with.exe"'
-  WriteRegStr HKCU "Software\Classes\*\shell\open-with-linux\command" "" '"$INSTDIR\data\menus\wsl-open-with.exe" "%%1"'
+  WriteRegStr HKCU "Software\Classes\*\shell\open-with-linux\command" "" '"$INSTDIR\data\menus\wsl-open-with.exe" "%1"'
 
   Exec "$INSTDIR\data\menus\make-menus.exe"
 SectionEnd
