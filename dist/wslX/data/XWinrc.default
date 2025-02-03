@@ -1,0 +1,25 @@
+MENU wslx {
+	"(Re)Create application menus" EXEC "start data\\menus\\make-menus.exe"
+	SEPARATOR
+	"Edit .XWinrc" EXEC "start notepad.exe data\\xwin\\etc\\X11\\system.XWinrc"
+	"Reload .XWinrc" RELOAD
+}
+MENU root {
+#<DISTROS>
+#</DISTROS>
+	SEPARATOR
+	"Start PulseAudio" EXEC "start PulseAudio.exe"
+	SEPARATOR
+	wslX MENU wslx
+}
+ROOTMENU root
+MENU sys {
+	SEPARATOR
+	"Always on Top" ALWAYSONTOP
+	"Transparent" ALPHA
+}
+DEFAULTSYSMENU sys ATEND
+SILENTEXIT
+LEFTBUTTON
+DARK
+DEBUG "Done parsing the configuration file..."

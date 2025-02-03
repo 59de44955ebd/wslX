@@ -1,0 +1,11 @@
+/dist/wslX-windows-x64-portable.7z
+/dist/wslX-windows-x64-setup.exe
+/dist/wslX/data/menus/
+/src/make-menus/build/
+/src/make-menus/dist/
+/src/wsl-open-with/build/
+/src/wsl-open-with/dist/
+*.spec
+/stuff/
+uninstall_list.nsh
+_backup.rar

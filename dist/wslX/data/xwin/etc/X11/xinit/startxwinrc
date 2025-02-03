@@ -1,0 +1,99 @@
+#!/bin/sh
+# Copyright (C) 1999 - 2005, 2014 Red Hat, Inc. All rights reserved. This
+# copyrighted material is made available to anyone wishing to use, modify,
+# copy, or redistribute it subject to the terms and conditions of the
+# GNU General Public License version 2.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+# Authors:
+#	Yaakov Selkowitz <yselkowi@redhat.com>
+
+# redirect errors to a file in user's home directory if we can
+if [ -z "$GDMSESSION" ]; then
+    # GDM redirect output itself in a smarter fashion
+    errfile="$HOME/.xsession-errors"
+    if ( umask 077 && cp /dev/null "$errfile" 2> /dev/null ); then
+        chmod 600 "$errfile"
+        [ -x /sbin/restorecon ] && /sbin/restorecon $errfile
+        exec > "$errfile" 2>&1
+    else
+        errfile=$(mktemp -q /tmp/xses-$USER.XXXXXX)
+        if [ $? -eq 0 ]; then
+            exec > "$errfile" 2>&1
+        fi
+    fi
+fi
+
+# The user may have their own clients they want to run.  If they don't,
+# fall back to system defaults.
+if [ -f $HOME/.startxwinrc ] ; then
+    exec $CK_XINIT_SESSION $SSH_AGENT $HOME/.startxwinrc || \
+    exec $CK_XINIT_SESSION $SSH_AGENT $HOME/.startxwinrc
+else
+    # define these first for the benefit of DBusActivable apps:
+    # https://wiki.gnome.org/HowDoI/DBusApplicationLaunching
+    export IMSETTINGS_INTEGRATE_DESKTOP=no
+    export QT_QPA_PLATFORMTHEME="qt5ct"
+    export XDG_MENU_PREFIX="xwin-"
+    export XDG_CURRENT_DESKTOP="X-Cygwin"
+    # Mandatorily source xinitrc-common, which is common code shared between the
+    # Xsession and xinitrc scripts which has been factored out to avoid duplication
+    . /etc/X11/xinit/xinitrc-common
+
+    # default settings
+    [ -x /usr/bin/xdg-user-dirs-gtk-update ] && /usr/bin/xdg-user-dirs-gtk-update
+    [ -x /usr/bin/gsettings-data-convert ] && /usr/bin/gsettings-data-convert
+
+    if [ -x /usr/bin/trayer ] ; then
+        /usr/bin/trayer --edge top --align center --widthtype request &
+        TRAY=1
+    fi
+
+    if [ -x /usr/libexec/notification-daemon -a -n "$TRAY" ] ; then
+        /usr/libexec/notification-daemon &
+    elif [ -x /usr/libexec/mate-notification-daemon ] ; then
+        /usr/libexec/mate-notification-daemon &
+    elif [ -x /usr/lib/xfce4/notifyd/xfce4-notifyd ] ; then
+        /usr/lib/xfce4/notifyd/xfce4-notifyd &
+    elif [ -x /usr/bin/lxqt-notificationd ] ; then
+        /usr/bin/lxqt-notificationd &
+    fi
+
+    if [ -x /usr/bin/start-pulseaudio-x11 ] ; then
+        /usr/bin/start-pulseaudio-x11
+	if [ -x /usr/bin/pasystray -a -n "$TRAY" ] ; then
+	    /usr/bin/pasystray &
+	elif [ -x /usr/bin/mate-volume-control-applet -a -n "$TRAY" ] ; then
+	    /usr/bin/mate-volume-control-applet &
+	fi
+    fi
+
+    if [ -x /usr/bin/gnome-keyring-daemon ] ; then
+        eval `/usr/bin/gnome-keyring-daemon --start --components=pkcs11`
+        eval `/usr/bin/gnome-keyring-daemon --start --components=secrets`
+        eval `/usr/bin/gnome-keyring-daemon --start --components=ssh`
+        export GNOME_KEYRING_CONTROL GPG_AGENT_INFO SSH_AUTH_SOCK
+    fi
+
+    [ -x /usr/bin/krb5-auth-dialog -a -n "$TRAY" ] && /usr/bin/krb5-auth-dialog &
+
+    if [ -x /usr/libexec/evolution/evolution-alarm-notify ] ; then
+        /usr/libexec/evolution/evolution-alarm-notify &
+    fi
+
+    [ -x /usr/bin/seahorse-sharing ] && /usr/bin/seahorse-sharing &
+    [ -x /usr/bin/zeitgeist-datahub ] && /usr/bin/zeitgeist-datahub &
+
+    if [ -x /usr/libexec/deja-dup/deja-dup-monitor ] ; then
+        /usr/libexec/deja-dup/deja-dup-monitor &
+    fi
+
+    if [ -x /usr/bin/fbxkb -a "x$IMSETTINGS_MODULE" != "xIBus" ] ; then
+        /usr/bin/fbxkb &
+    fi
+
+    exec /usr/bin/xwin-xdg-menu
+fi
