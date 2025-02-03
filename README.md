@@ -1,13 +1,13 @@
 # wslX - an enhanced Windows X-server for WSL
 
-wslX is a customized and repacked version of [Cygwin](https://www.cygwin.com/)'s [Cygwin/X](https://x.cygwin.com/) X.Org server `XWin.exe`, explicitely meant for integrating local WSL Linux GUI applications into the Windows workflow. It supports any Linux distro, but it works best and was mainly tested in combination with a Xfce Desktop environment, that's the recommended environment to use in your distro(s).
+wslX is a customized and repacked version of [Cygwin](https://www.cygwin.com/)'s [Cygwin/X](https://x.cygwin.com/) X.Org server `XWin.exe`, explicitely meant for integrating local WSL Linux GUI applications into the Windows workflow. It supports any Linux distro, but it works best and was mainly tested in combination with a Xfce desktop environment, that's the recommended environment to use in your distro(s).
 
 It's an alternative for [VcXsrv](https://sourceforge.net/projects/vcxsrv/), [Xming](http://www.straightrunning.com/XmingNotes/) and [WSLg](https://github.com/microsoft/wslg), with a couple of extra features.
 
-wslX is solely installed in user space, it doesn't touch system registry (HKLM) and never requires elevated privileges.
+wslX is installed and runs solely in user space, it doesn't touch system registry (HKLM) and never requires elevated privileges.
 
 ## Features
-* Drag and drop support - this is wslX's core feature. If a Linux GUI app - e.g. a text editor, image viewer/editor, media player etc. - natively supports dropping files into its window, drag and drop actions from Windows explorer (including the desktop) are automatically converted into X drop events, and the dropped file paths are converted into WSL Linux paths (e.g. /mnt/c/...). Windows shortcut files (.LNK) are resolved on the fly. So you can quickly open files in WSL Linux GUI apps by dragging and dropping them from explorer.
+* Drag-and-drop support - this is wslX's core feature. If a Linux GUI app - e.g. a text editor, image viewer/editor, media player etc. - natively supports dropping files into its window, drag and drop actions from Windows explorer (including the desktop) are automatically converted into X drop events, and the dropped file paths are converted into WSL Linux paths (e.g. /mnt/c/...). Windows shortcut files (.LNK) are resolved on the fly. So you can quickly open files in WSL Linux GUI apps by dragging and dropping them from explorer.
 * Menu icons in the configurable system tray menu (see screenshot below)
 * Automatic creation of "Linux start menus" - including icons - for GUI apps detected in the currently installed WSL distro(s).
 * "Open with Linux..." context menu in Explorer that allows to open currently selected files directly in some Linux GUI app. This is not implemented as a shell extension, but just as single item added to HKEY_CURRENT_USER\Software\Classes\*\shell, and therefor lightweight regarding Explorer. The actual Linux menu is displayed by an independant process.
@@ -23,6 +23,8 @@ wslX is solely installed in user space, it doesn't touch system registry (HKLM) 
 *"Open with Linux..." context menu in Windows 11 Explorer*  
 ![wslX in Windows 11](screenshots/open-with-linux.png)
 
+*Screenshot of a WSl Arch desktop, edited in a WSL Debian GIMP, all running inside Windows 11 - isn't this beautiful? ;-)*  
+![Debian GIMP](screenshots/wsl_debian_gimp.png)
 ## Usage
 
 ### a) Installer
@@ -43,7 +45,7 @@ Run `unregister_open_with_linux.cmd` to remove the context menu item from Explor
 `
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
 `  
-in an elevated CMD shell.
+in a CMD shell.
 * When searching for Linux GUI apps, for each found Linux distro 2 links are added to folder "wslX" in the Windows startmenu:
   * "Shell\\WSL-[distro-name]" for directly opening a bash shell for this distro.
   * "Desktop\\WSL-[distro-name]" for starting a fullscreen desktop session for this distro.
@@ -54,6 +56,26 @@ in an elevated CMD shell.
   wslX, when run normally from the startmenu, is configured for multi-window mode, adds a system tray icon and always uses display port :0. Those desktop session links instead use fullscreen mode without tray icon and always use display port :1.
 
   Use Alt+TAB to switch between the fullscreen Linux desktop and the Windows desktop. When logging out of the Linux desktop session you should automatically return to the Windows desktop, in case this fails use task manager to kill the "XWin.exe" process.
+
+## Configuration (system.XWinrc)
+wslX, like other X-servers, is configured by a plain text file called "system.XWinrc", which can be found at:   
+`[wslX folder]\data\xwin\etc\X11\system.XWinrc`   
+
+You can open it directly by selecting `wslX -> Edit .XWinrc` from the wslX menu in the system tray.
+
+The general format is documented [here](https://x.cygwin.com/docs/man5/XWinrc.5.html). Since wslX itself is installed and executed only in user space, despite its name and original meaning in this case it's not a system-wide configuration file, but always per user.
+
+The `EXEC` instruction, which is the core of all menu commands, does not try to use Cygwin's sh command as in the original Cygwin/X implementation, but instead executes `start` in a (hidden) cmd.exe process.
+
+In addition to the official instructions, wslX supports the following extra instructions:
+* LEFTBUTTON  
+  If this line is found in the config file (default), the system tray icon behaves like the Windows start menu icon and opens the menu by a left mouse click, otherwise the menu is opened by a right mouse click.
+* DARK  
+  If this line is found in the config file (default), the system tray menu as well as Linux GUI app title bars always use dark mode, otherwise dark mode is only used if Windows uses a dark theme.
+* `#<AUTOGEN> ... #</AUTOGEN>`  
+  Those special comments, in separate lines, mark the section that selecting "(Re)Create application menus" in the system tray menu will completely overwrite when trying to detect WSL Linux GUI apps and create start menus for those. This allows to add arbitrary custom menus and instructions to the config file without the danger to lose them by recreating application menus.
+* `#<DISTROS> ... #</DISTROS>`  
+  Same as above, but those special comments are instead *inside the root menu section*, and again mark the section that "(Re)Create application menus" will overwrite.
 
 ## To-dos
 * Language localisation (currently menu items are english only)
