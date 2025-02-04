@@ -16,14 +16,29 @@ You need a recent version of Cygwin 64-bit. Open a CMD/PowerShell window, cd to 
     $ bin\bash --login
     ```
 4. Prepare and compile
-   ```
-   $ cd /usr/src/xorg-server-21.1.12-1.src
-   $ cygport xorg-server.cygport prep
-   $ cygport xorg-server.cygport compile
-   ```
-5. Replace folder `/usr/src/xorg-server-21.1.12-1.src/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/hw/xwin` with the `xwin` folder of this repository.
+    ```
+    $ cd /usr/src/xorg-server-21.1.12-1.src
+    $ cygport xorg-server.cygport prep
+    $ cygport xorg-server.cygport compile
+    ```
+5. Replace folder 
+    ```
+    /usr/src/xorg-server-21.1.12-1.src/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/hw/xwin
+    ```
+    with the `src/xwin` folder of this repository.
 
-6. Compile and strip XWin.exe
+6. Replace file 
+    ```
+    usr/src/xorg-server-21.1.12-1.src/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/meson_options.txt
+    ```
+    with file `src/meson_options.txt` of this repository.
+
+7. Clean target
+    ```
+    $ rm -R /usr/src/xorg-server-21.1.12-1.src/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/x86_64-pc-cygwin/hw/xwin
+    ```
+
+8. Compile and strip XWin.exe
     ```
     $ cd /usr/src/xorg-server-21.1.12-1.src/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1
     $ ninja -C x86_64-pc-cygwin

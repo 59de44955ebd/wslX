@@ -125,7 +125,8 @@ rsrc = windows.compile_resources(
      'XWin.rc',
      args: ['--use-temp-file', '-DHOST="@0@-@1@"'.format(host_machine.system(), host_machine.cpu_family())],
      include_directories: include_directories('../../include/'),
-     depend_files: ['XWin.exe.manifest'],
+#     depend_files: ['XWin.exe.manifest'],
+     depend_files: [],
 #     depends: x_ico,
 )
 srcs_windows += rsrc
