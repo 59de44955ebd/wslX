@@ -265,7 +265,7 @@ if __name__ == '__main__':
         os.environ['WSLENV'] = 'DISPLAY:QT_QPA_PLATFORMTHEME'
 
         shell32.ShellExecuteW(0, None, os.path.join(DATA_DIR, 'xwin', 'bin', 'xwin.exe'),
-                ':0 -silent-dup-error -multiwindow -wgl', None, 0)
+                ':0 -silent-dup-error -multiwindow -wgl', os.path.join(DATA_DIR, '..'), 0)
 
         arg = '"' + f'`wslpath "{sys.argv[1]}"`' + '"'
         command = exec_dict[idm].replace('%U', arg).replace('%u', arg).replace('%F', arg).replace('%f', arg)
