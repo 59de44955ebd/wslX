@@ -1,0 +1,856 @@
+xorg-server
+------------------------------------------
+X.Org servers
+
+Build requirements:
+  See https://x.cygwin.com/docs/cg/prog-build-prerequisites.html
+
+Canonical website:
+  http://xorg.freedesktop.org/
+
+Canonical download:
+  http://xorg.freedesktop.org/releases/individual/xserver/
+
+-------------------------------------------
+
+Build instructions:
+  unpack xorg-server-N.N.N-N-src.tar.bz2
+    if you use setup to install this src package, it will be
+    unpacked under /usr/src automatically
+  cd /usr/src
+  cygport ./xorg-server.cygport all
+
+This will create:
+  /usr/src/xorg-server-N.N.N-N-src.tar.bz2
+  /usr/src/xorg-server-N.N.N-N.tar.bz2
+  /usr/src/xorg-server-dmx-N.N.N-N.tar.bz2
+
+-------------------------------------------
+
+Port Notes:
+
+----- version 21.1.12-1 ----
+Version bump.
+- Fix a buffer overflow detected by _FORTIFY_SOURCE=3
+
+----- version 21.1.9-1 ----
+Version bump.
+
+----- version 21.1.8-1 ----
+Version bump.
+
+----- version 21.1.4-2 ----
+- Fix -silent-dup-error (again)
+
+----- version 21.1.4-1 ----
+Version bump.
+- Fix mis-rendering in multi-monitor configurations with disparate DPI values
+- Fix for a window getting stuck in a state where it's continuously switching between maximized and normal state
+
+----- version 21.1.3-1 ----
+Version bump.
+- Don't imply '-nolock' with '-displayfd'
+
+----- version 21.1.2-2 ----
+- Fix left-over socket lockfiles (via a patch to xtrans)
+
+----- version 21.1.2-1 ----
+Version bump.
+- Fix a deadlock on shutdown when built with DDXBEFORERESET
+
+----- version 21.1.1-1 ----
+Version bump.
+- Do not set CF_TEXT on clipboard, to allow it to be synthesized from CF_UNICODE
+- Turn on thread-safe logging in meson build
+
+----- version 21.1.0-1 ----
+Version bump.
+
+----- version 1.20.13-1 ----
+Version bump.
+- Always set the X input focus to none when an X window loses focus
+
+----- version 1.20.12-1 ----
+Version bump.
+- Backport DMX compilation fix for -fno-common
+- Fix compilation with w32api 9.0.0
+- Fix spinning if a launched client closes stdout or stderr
+
+----- version 1.20.11-1 ----
+Version bump.
+
+----- version 1.20.10-1 ----
+Version bump.
+- Fix compilation with -fno-common (the default for gcc 10)
+
+----- version 1.20.9-1 ----
+Version bump.
+- Use Win32 CryptoAPI, dropping dependency on libnettle
+
+----- version 1.20.5-3 -----
+- Only enable the Windows-DRI extension if WGL is enabled
+- Fix an X server hang that sometimes occured when an indirect GLX client tried to use a pixelformat without alpha
+- Update build requirements
+- Update fetch URLs to use https://
+
+----- version 1.20.5-2 -----
+- Fix unmap of owned window potentially causing application kill
+- Fix trailing garbage in Windows->X paste of multiline text
+- Adjust unneeded uses of 'Cygwin/X' in manpages
+- Give unnamed X windows a more explicit title
+
+----- version 1.20.5-1 -----
+Version bump.
+- Drop pre-Vista Win32 clipboard API
+- Remove '-nounicodeclipboard' option
+- xcbify clipboard integration
+
+----- version 1.20.4-1 -----
+Version bump.
+- Fix '-displayfd' without '-listen tcp' using in-use display numbers (via a patch to xtrans)
+- Fix '-silent-dup-error -nolock' not being silent
+
+----- version 1.20.2-1 -----
+Version bump.
+
+----- version 1.20.1-1 -----
+Version bump.
+- Fix xorg-server-devel package to require xorgproto
+- Correctly set Libs: in xorg-server.pc
+- Fix some appearances of relative paths in manpages
+- Fix section numbers not being substituted in some manpages
+- Remove a workaround for older meson in icon generation
+- Add the Belgian (Comma) keyboard layout
+- Use 64-bit tick count
+- Respect -notrayicon option on taskbar restart
+
+----- version 1.20.0-2 -----
+- Rebuild with a meson with fixes for some issues with xorg-server-devel
+
+----- version 1.20.0-1 -----
+Version bump.
+
+----- version 1.19.6-2 -----
+- Correctly set renderType for fbConfigs with floating point pixelFormats
+- Add Russian keyboard layout
+- Fix sometimes returning broken RANDR information
+- Return a fixed, linear gamma ramp, so xrandr doesn't always complain it's missing
+
+----- version 1.19.6-1 -----
+Version bump.
+
+----- version 1.19.5-1 -----
+Version bump.
+- Fix transposed RaiseVolume and LowerVolume keyboard scan codes
+
+----- version 1.19.4-1 -----
+Version bump.
+- Revert X input focus changes, still not quite right
+- Fix malformed logging about WGL pixelformats with overlays
+
+----- version 1.19.3-2 -----
+- Fix regression with xterm acquiring focus from another X window
+
+----- version 1.19.3-1 -----
+Version bump.
+- Always set the X input focus to none when an X window loses focus
+- Fix a potential bug when a monitor specified in a -screen option was removed
+
+----- version 1.19.2-1 -----
+Version bump.
+
+----- version 1.19.1-1 -----
+Version bump.
+- Restore disabling smart scheduler by default
+
+----- version 1.19.0-2 -----
+- Add -compositealpha option to enable alpha channel use in multiwindow mode
+- Fix a bogus warning logged when WGL_ARB_framebuffer_sRGB isn't available
+
+----- version 1.19.0-1 -----
+Version bump.
+- compositewm now avoids the creation of a DIB and conversion of the window pixmap to DIB everytime it is drawn from to a Windows window, to fix performance regression
+- mwextwm is completely expunged, windowswmproto is no longer a build-time requirement.
+- smartscheduler is now on by default
+- updated X.Org icon, generated from the X.Org logo SVG.
+
+----- version 1.18.4-1 -----
+Version bump.
+- Ignore -swcursor if -compositewm
+- Fix incorrect resizing/repositioning for non-toplevel GL windows in WGL mode
+- Enable a few more GLX extensions in WGL mode
+- Fix ignoring fbconfig multisample attributes when selecting a pixel format in WGL mode
+- Add -icon option to set the screen window icon in windowed mode
+
+----- version 1.18.3-1 -----
+Version bump.
+- Turn on -compositewm by default
+- Fix custom sysmenu not used when window is initially shown
+- Configure with --disable-windowswm
+
+----- version 1.18.2-1 -----
+Version bump.
+- Remove -mwextwm and -internalwm options
+- Fix broken xvfb
+- Add xvfb-run script
+
+----- version 1.18.1-2 -----
+- Fix compilation with gcc5
+- Fix a crash which occurs if focus returns to XWin after xkbcomp has failed
+- Fix a crash which could occur in reloading XWinrc when not in multiwindow mode
+- Fix handling of WM_DISPLAYCHANGE in windowed mode
+- Avoid a re-entrancy scenario which was incorrectly handled, probably leading to a crash
+
+----- version 1.18.1-1 -----
+Version bump.
+- Implement >16MB X -> Windows clipboard pastes using INCR
+- Report >16MB Windows -> X clipboard pastes as not yet supported
+- Fix build with latest Cygwin headers
+- Raise XRANDR limit on X display size from 4Kx4K to 32Kx32K
+
+----- version 1.18.0-2 -----
+- Fix a problem with initially maximized windows in multiwindow mode
+
+----- version 1.18.0-1 -----
+Version bump.
+- Convert the  multiwindow internal WM from libX11 to xcb
+- The -internalwm option is accepted but ignored.
+- _NET_WM_WINDOW_TYPE_SPLASH_SCREEN, is accepted as equivalent to the correct _NET_WM_WINDOW_TYPE_SPLASH
+- gtk+ applications with client-side decorations but a window manager frame should now be given a resizeable frame, when appropriate.
+- Remove the "Applications" submenu from the default XWinrc for new installations, as redundant to xwin-xdg-menu.
+- Handle _NET_WM_STATE messages to maximize, iconify and restore. 
+- Don't use the removed --enable-glx-tls option
+
+----- version 1.17.4-1 -----
+Version bump.
+
+----- version 1.17.2-4 -----
+- Change default fontpath
+- Disable building developer documentation, rather than leaving it as auto, if not requested
+
+----- version 1.17.2-3 -----
+- Fix windows hidden by virtual desktop software becoming lost (regression in 1.17.2-1)
+- Log xkbcomp exit status in hex
+- Fix a typo in generic handling for Macintosh keyboard layouts
+- Check /var/log/xwin/ gets correct permissions
+
+----- version 1.17.2-2 -----
+- Show maximize window decoration if a maximum size larger than virtual desktop size is specified
+- Give dock type windows the SKIPTASKBAR style
+- Add experimental '-compositewm' option
+- When resizing a window, black fill the area outside the current window size
+
+----- version 1.17.2-1 -----
+Version bump.
+- Only apply MINIMIZE or MAXIMIZE styles from XWinrc when mapping a window
+- Ensure WM_TRANSIENT_FOR windows are always parented
+- Downgrade a warning when experimental crashreporter isn't present to debug
+- When a SEGV occurs checking WGL, disable WGL and continue, rather than exiting
+- Report invalid options in combination with -nodecoration
+- Add support for a SKIPTASKBAR style in XWinrc
+
+----- version 1.17.1-5 -----
+- Fix -silent-dup-error option
+- Update WM_STATE, _NET_WM_STATE properties when window state changes
+
+----- version 1.17.1-4 -----
+- Fix a bug in "Capture xkbcomp exit status, stderr and stdout to log" which could cause a crash at startup
+
+----- version 1.17.1-3 -----
+- Crashreporting improvements using new Cygwin DLL features
+- Update builder email for cygwin-xfree list deprecation
+- Capture xkbcomp exit status, stderr and stout to log
+- Clarify authorization failure reason strings sent back to the client
+- Generic handling of Macintosh keyboard layouts
+- Correctly check if window title already contains hostname when WM_CLIENT_MACHINE is a FQDN
+
+----- version 1.17.1-2 -----
+- Fixes for RANDR primary output change
+- Add marketing name for Windows 10.0
+- Log the locale when it's not supported by libX11
+- Log windows thread ID on fatal signal
+
+----- version 1.17.1-1 -----
+Version bump.
+- Improve RANDR data returned so a primary output exists
+- Make the XDMCP options -query,-indirect,etc. imply -listen tcp
+
+----- version 1.17.0-1 -----
+Version bump.
+
+----- version 1.16.3-1 -----
+Version bump.
+- Defend against and report crashes in glxWinScreenProbe()
+- Add a tentative entry for the Korean keyboard to the list of known keyboards
+- Typo fix in "Fix crash when a client exits without deleting GL contexts"
+- Improve code generator to deal with Khronos OpenGL registry XML since svn r27498
+- Enable GLX TLS
+- Remove workaround for binutils bug #16807
+
+----- version 1.16.2-1 -----
+Version bump.
+- Use the modern clipboard viewer API, which doesn't require applications to maintain the clipboard viewer list, available on Vista and later
+- Log clipboard formats when GetClipboardData() fails
+- Log name of owning HWND when OpenClipboard fails
+- In multiwindow mode, add EWMH properties for describing multiple desktops to the root window
+- Fix a problem with logging using a format specifier with a variable field width or precision
+- Default to -noresize when -fullscreen is used
+- Propagate crashreporter exit code through xorg-crashreport
+
+----- version 1.16.1-3 -----
+- Make XWin backup the previous logfile as .old
+- Properly log the reason in an XDMCP unwilling response
+- Only invoke the crashreporter on a fatal signal, not in places where we just want to log a backtrace
+- Add marketing name for Windows 6.4 and manifest for compatibility
+- Unsilence an XErrorHandler
+
+----- version 1.16.1-2 -----
+- Fix transposed format specifiers
+
+----- version 1.16.1-1 -----
+Version bump.
+- Also automatically activate the -nolock option if /tmp is on an exFAT filesystem
+- Log owning HWND when OpenClipboard fails
+- Log name of format atom when conversion of X clipboard to a format is refused
+- Also use _NET_WM_NAME for window titles in multiwindow mode
+- Downgrade some uninformative, always-emitted log output to debug
+- Check TEMP and TMP directories for accessibilty before using for xkbcomp temporary file
+- Log filename when xkbcomp temporary file cannot be opened
+- Don't add an extra null character at the end of the text on the Windows clipboard
+
+----- version 1.16.0-2 -----
+- Fix -displayfd to respect -pn/-nopn
+- Fix -displayfd to check port 65535
+- Fix problems with pixelformat selection for GLX pixmaps on certain drivers
+- Add experimental Windows-DRI extension
+
+----- version 1.16.0-1 -----
+Version bump.
+
+----- version 1.15.1-4 -----
+- Give "View logfile" window a better title
+- Fix a couple of bugs in WGL mode which prevented pbuffers from being created with certain fbconfigs
+- Improve the check that window position is visible to work correctly for non-rectangular virtual desktops
+- Downgrade the "forcing window to exist" log message from error to debug
+- Some compilation warning fixes
+- Remove an incorrect assertion in WGL mdoe, triggered by glXSwapBuffers() in the piglit glx_make_current test
+
+----- version 1.15.1-3 -----
+- Cosmetic fix to version reporting on x86_64
+- Improve visual matching with a remote libGL by not reporting pbuffer size limits
+- Log counts of WGL pixel formats which couldn't be used for various reasons
+- Correctly interpret WM_HINTS, WM_NORMAL_HINTS properties on x86_64
+- Ignore any WM_NORMAL_HINTS PPosition if it specifies the origin
+- Fix building with khronos-opengl-registry since 2013-08-16 by limiting the considered features for shim generation to GL version <=1.2
+
+----- version 1.15.1-2 -----
+- Fix a hang on shutdown which could occur when we own the Windows clipboard
+- Fix sometimes missing sysmenu icons in multiwindow mode on Vista and later
+- Avoid "Your OS is unknown" warning when configuring Xorg for cygwin
+
+----- version 1.15.1-1 -----
+Version bump.
+- Enable -hostintitle by default.
+- Fix checking of WM_NORMAL_HINTS for not-maximizeable and fixed size hints in multiwindow mode
+- Stop reporting GL extensions which are supported by WGL but not by the server
+- MinGW build fix
+- Fix for linking to a shared libXfont
+- Fix GL_ARB_vertex_program glGetvertex[dfi]v() failing with GLXUnsupportedPrivateRequest
+- Cosmetic and technical improvements to crash backtrace logging
+- Disable PrimaryDD and ShadowDD DirectDraw2 drawing engines
+- Fix a crash if OpenGL is used on root window in multiwindow mode
+
+----- version 1.15.0-4 -----
+- Remove decorations from _NET_WM_WINDOW_TYPE_SPLASH type windows
+- Improve mapping of no-decoration MOTIF hint
+- Fix Xephyr initial window sizing (fd.o bug #74849)
+
+----- version 1.15.0-3 -----
+- Fix clipboard integration thread restarting
+
+----- version 1.15.0-2 -----
+- Fix a crash when GL client exits without deleting GL contexts
+- Don't create fbConfigs for un-accelerated pixelFormats
+
+----- version 1.15.0-1 -----
+Version bump.
+
+----- version 1.14.5-1 -----
+Version bump.
+- Fix compilation issues due to wglext.h from current w32api-headers being older than current khronos-opengl-registry, by only generating needed WGL wrappers
+- Add Windows 8.1, Windows Server 2012 R2, Windows XP x64 to the list of Windows versions we know the name of
+
+----- version 1.14.4-2 -----
+- Improve relability of large X->Windows clipboard pastes
+
+----- version 1.14.4-1 -----
+Version bump.
+- Fix a crash on shutdown or losing fullscreen when '-fullscreen' and '-depth 8' are used.
+
+----- version 1.14.3-2 -----
+- Enable GLX on cygwin64
+- Revert some clipboard changes which caused it to be unreliable
+- More clipboard tweaks
+- Avoid blocking the Windows application which requested clipboard contents when clipboard contents can't be converted to a text format
+- Add command line and tray menu options to control monitoring of PRIMARY selection
+
+----- version 1.14.3-1 -----
+Version bump.
+- Display host triplet in About... dialog
+- Fix _WINDOWSWM_NATIVE_HWND on cygwin64
+- Warning fixes on cygwin64
+- Implement self-maximizing windows using gtk_window_maximize() in multiwindow mode
+- Fix a WM_ENDSESSION crash on cygwin64
+- Update WGL wrapper function generation script to use Khronos group XML description of interface
+
+----- version 1.14.2-2 -----
+- Fix multiwindow mode windows not being able to change title, icon or decoration after they are first shown on cygwin64
+- Fix ARGB cursors being vertically stretched by interleaving blank rows of pixels on cygwin64
+
+----- version 1.14.2-1 -----
+Version bump.
+- Add ICCCM WM_TAKE_FOCUS WM protocol in multiwindow mode
+
+----- version 1.14.1-2 -----
+- Fix a multiwindow mode crash if a failure occured making a Windows icon
+- Stop processing of _NET_WM_ICON hint if malformed
+- Fixed clipboard for cygwin64
+- Fail ./configure if yacc or lex not found
+- Check for python in ./configure
+- Remove useless multimedia i2c driver modules
+- Add xwinclip package
+
+----- version 1.14.1-1 -----
+Version bump.
+- Debug and GLX build fixes for cygwin64
+- Workaround to make using XSendEvent() to send WM_DELETE_WINDOW work on cygwin64
+- Fix OS version reporting on cygwin64
+- Fix a potential crash on startup when GetSystemMetrics(SM_CMOUSEBUTTONS) < 5
+
+----- version 1.14.0-2 -----
+- Initial set of fixes for cygwin64
+
+----- version 1.14.0-1 -----
+Version bump.
+- Change mouse buttons 4 and 5 from X11 buttons 6 and 7 to X11 buttons 8 and 9
+- Add tilt wheel as X11 buttons 6 and 7
+- Add PaintWindow hook which lets us build all DDX in one pass
+- Handle -displayfd and an explicit :display sensibly
+
+----- version 1.13.3-1 -----
+Version bump.
+
+----- version 1.13.2-2 -----
+- Fix a bug with -emulate3buttons which could cause the emulated middle mouse button click to never be released
+
+----- version 1.13.2-1 -----
+Version bump.
+
+----- version 1.13.1-1 -----
+Version bump.
+- Configure to use Win32 CryptoAPI instead of gcrypt for SHA-1
+- Fix the use of a temporary directory for files passed to xkbcomp when TMP is set but TEMP is not
+- Fix code which is supposed to bring the X screen window to the front on a single left-click on the tray icon 
+in windowed mode, but has never worked
+- Improve the way that pressed modifier keys are restored when an X window gains focus: Left and right ctrl and 
+shift keys are now handled independently.
+- Fix checking of _NET_WM_STATE to consider atoms other than the first one in the list
+- Don't configure with --with-os-name=Cygwin, so Xorg reports the full build time uname
+- Various build fixes for MinGW
+- Various distcheck fixes
+- Package some internal WM utility code as a library for use with XtoW
+
+----- version 1.13.0-1 -----
+Version bump.
+- Fix compilation of Xorg DDX on cygwin since upstream extmod removal changes
+- Update .cygport for automatic setup .hint file generation
+- Fix compilation with mingw-w64 w32api headers
+- Stop spammming MotionNotify events when the mouse is outside an X window but not moving
+- Fix a potential crash in multiwindow mode when class name isn't null terminated
+
+----- version 1.12.4-1 -----
+Version bump.
+
+----- version 1.12.3-1 -----
+Version bump.
+- Don't register two XINERAMA extensions in multiwindow mode
+- Add dpi and xkb configuration via XWinrc
+
+----- version 1.12.2-2 -----
+- Don't log all fbConfigs and GL/WGL extensions, unless verbose logging is requested
+- Add '-notrapsignals' option to disable running crash analysis tool
+- Report cygwin version as well as native OS version in log
+- Do not report the GLX_INTEL_swap_event extension as supported by indirect swrast
+- Report if debug symbols for the X server aren't installed in the xorg-backtrace script
+
+----- version 1.12.2-1 -----
+Version bump.
+- Fix a merge error with 1.12.1, which made OpenGL non-functional in non-toplevel windows in WGL mode
+- Ensure full styling is properly applied when the window is first shown
+
+----- version 1.12.1-2 -----
+- Fix wrapper code generation, so OpenGL is functional again in WGL mode
+- Increase the timeout the xorg-backtrace script uses for gdb from 5 to 60 seconds
+
+----- version 1.12.1-1 -----
+Version bump.
+- Patch to enable upstream code to run an external crash reporting tool and capture output to log
+- Include a simple xorg-backtrace script which tries to use gdb to generate a backtrace
+
+----- version 1.12.0-5 -----
+- Fix crash in icon conversion if icon_pixmap is invalid
+- Revert "Load swrastg if GALLIUM_DRIVER environment variable is set"
+- Log stdout and stderr for processes started from the notification area icon
+
+----- version 1.12.0-4 -----
+- Fix multiple monitors support
+- If a window has had its taskbar button removed, disable its minimize button to prevent it becoming lost
+
+----- version 1.12.0-3 -----
+- Various fixes to WM_HINTS bitmap icon conversion
+- Crash fix to icon regeneration on XWinrc reload
+
+----- version 1.12.0-2 -----
+- Move Xephyr, Xfake, Xnest and Xvfb servers to a separate package
+- Build the xorg server
+- Add devel package, which contains the xorg driver sdk
+- In multiwindow mode, the native window icon now updates if the X window
+_NEW_WM_ICON icon hint changes
+- In multiwindow mode, the native window styling now updates if the X window
+styling hints change
+- The _NET_WM_STATE_SKIP_TASKBAR hint is now implemented in multiwindow mode
+- A crash caused by a race condition in the conversion of the window icon from
+an X property to a Windows icon has been fixed (Reported by Ken Brown)
+- In multiwindow mode, the native window now flashes on the taskbar if the X
+window's urgency hint is set
+0 A bug which could cause the X server to use 100% of a core while waiting for
+the X clipboard contents to be converted has been fixed [1]
+- Fake XINERAMA data is now generated describing the native monitors when
+multiplemonitor mode is enabled, allowing XINERAMA-aware X applications to
+correctly place their windows so they don't get split between monitors.
+- A couple of timing-sensitive failures in clipboard handling have been fixed.
+- Lots of debugging improvements, correctness changes and obsolete cruft removed.
+
+----- version 1.12.0-1 -----
+Version bump.
+
+----- version 1.11.4-5 -----
+- Reverted clipboard change in 1.11.4-4, it broke copying from native Firefox into a cygwin
+X emacs window, somehow.
+
+----- version 1.11.4-4 -----
+- Remove useless /usr/adm/Xnmsgs functionality, so it doesn't trample on one of our listener
+sockets if we start with stderr closed, causing XWin to spin on Cygwin 1.7.10
+- Empty the Windows clipboard when X loses focus.  This should allow us to notice when the
+selection changes, but the selection owner has not, at the cost of emptying the clipboard if
+the selection was not changed while X has the focus.
+
+----- version 1.11.4-3 -----
+- Fall back to mesa software rendering rather than using the GDI Generic native renderer
+- Synchronize the indirect function dispatch table offsets with mesa 7.11
+- Use shared libglapi for dispatch table
+
+----- version 1.11.4-2 -----
+- Fix a crash in -wgl mode when the WGL_ARB_extensions_string extension is not supported
+
+----- version 1.11.4-1 -----
+Version bump.
+- Enable RANDR resize (option -resize) by default
+- Enable AIGLX (option -wgl) by default
+- Ignore bogus WM_DISPLAYCHANGE messages that have 0 bpp
+- Avoid WIN_WINDOW_PROP races which could cause a crash during Windows window destruction
+- Restore modifier key state when an X window gains focus
+- RANDR resize didn't occur, in windowed mode, with option -resize, when the window was maximized or restored
+- Fix rrScreenSetSize function pointer mismatch
+- Add Windows 8 to the list of Windows versions we know the name of
+
+----- version 1.11.3-1 -----
+Version bump.
+- Add experimental option -hostintitle which adds remote hostname to multiwindow mode window
+titles.
+
+----- version 1.11.2-1 -----
+Version bump.
+- Use spawnl() instead of pipe() & fork() to invoke xkbcomp
+
+----- version 1.11.1-1 -----
+Version bump.
+- Make XWin support the same XKB private actions for grab debugging as XOrg
+- Minimize redraw events after resizing/moving windows in multiwindow mode
+- Fix AltGr key sometimes firing an additional Ctrl-L key on non-US keyboards
+- Handle some more Motif window decoration hints
+
+----- version 1.10.3-1 -----
+Version bump.
+- On W7, use SHGetPropertyStoreForWindow() to set the System.AppUserModel.Id property in the
+IPropertyStore object for a window to a string containing the X window classname, so the taskbar
+can more correctly group windows belonging to the same X application
+
+----- version 1.10.2-2 -----
+- Ensure temporary file used to invoke xkbcomp is always removed
+- Handle the virtual key code generated by the Fn key on IBM Lenovo laptops
+
+----- version 1.10.2-1 -----
+Version bump.
+- Automatically activate the -nolock option if /tmp is on a FAT filesystem
+- Automatically activate the -emulate3buttons option if less than 3 mouse buttons are reported
+- Add -noemulate3buttons option
+- Use system() rather than pipe() & fork() to invoke xkbcomp
+- If GALLIUM_DRIVER env var is set, load swrastg rather than swrast
+- In -wgl mode, create a new dispatch table, rather than modifying the existing one to avoid a GLX crash
+
+----- version 1.10.1-1 -----
+Version bump.
+- Report if OS is WoW64 or not when reporting OS version
+- Fix WM_ENDSESSION handling
+- Remove _TrackMouseEvent pre-NT4 compatibility cruft
+- Add an item to open the logfile to the default tray icon menu
+- Allow XScreenSaverSuspend() to effect Windows screen saver or monitor power off
+- Bug fixes for screen sizing when the screen window is on a non-primary monitor
+- In multiwindow mode, don't grab native input focus for new windows which hint they don't want it
+
+----- version 1.10.0-1 -----
+Version bump.
+- Fix clipboard integration when XSupportsLocale() fails by setting a known good locale
+- Report XLocaleNotSupported result from X*TextPropertyToTextList()
+- When using -from option, only the specified address is sent in the XDMCP REQUEST
+- Tidy up OS version detection and reporting
+- Don't bother reporting XORG_VERSION_CURRENT
+- Remove some uninformative, always emitted log output
+- Handle failure of winScreenInit() during startup without crashing
+- Configure with --disable-glx-tls as default has changed from disabled to enabled if platform has TLS
+
+----- version 1.9.4-1 -----
+Version bump.
+- Handle failure to get any GLX fbConfigs more gracefully: If we didn't
+get any useful pixel formats from WGL_ARB_pixel_format, fall back
+to using DescribePixelFormat().  If that doesn't give us any useful
+pixel formats, fallback to software rendering.
+- Decorate function pointers retrieved via GetProcAddress which are currently
+missing it with WINAPI, so stdcall ABI is used.  This fixes a crash currently
+seen when -screen option uses a size and monitor number e.g. -screen 0 1280x1000@2
+
+----- version 1.9.3-2 -----
+- Fix a crash which occurred using indirect rendering with some OpenGL applications e.g. ParaView by synchronizing
+the indirect function dispatch table offsets with the current Mesa (7.8).  The need for this synchronization is an
+unfortunate consequence of the way we currently work around some linkage problems with Mesa due to PE/COFF limitations.
+
+----- version 1.9.3-1 -----
+Version bump.
+- Explicitly configure to use libgcrypt SHA1 implementation, rather than picking one depending on build environment,
+so setup.hint dependencies are correct
+- In WGL mode, handle GLX windows being reparented from a mapped window to an unmapped window correctly.
+
+----- version 1.9.2-1 -----
+Version bump.
+- Rewrite of the way clipboard thread is started, which should improve clipboard robustness in XDMCP sessions
+- Fix clipboard interaction with nxproxy (and possibly other X clients)
+- Various clipboard improvements
+- Fix WM_DISPLAYCHANGE handling in windowed mode to not resize the X screen
+- Don't write list email address into log
+- Fix random DPI after resize
+- Implement WGL AIGLX for non-toplevel X windows
+
+----- version 1.9.0-2 -----
+- Fix a regression with window placement: Windows which remember their
+position were drifting towards the bottom-right with each appearance
+- Move log files to /var/log/xwin, which is created mode 0777, to avoid
+logging failures in multiuser setups
+
+----- version 1.9.0-1 -----
+Version bump.
+Added patches:
+- fix a clipboard-related crash during XDMCP session startup
+- added Turkish keyboard layout detection.
+- add -displayfd option (experimental)
+- crash fixes for -resize
+- enable AIGLX code and -wgl option which has been merged upstream,
+and various GLX fixes
+
+----- version 1.8.2-1 -----
+Version bump.
+Support for RANDR display resizing was added.  In windowed mode, this
+requires the XWin -resize option; in multiwindow mode, the display will
+automatically resize to match a change in Windows display resolution.
+Additional patches:
+- Generate X keycodes for multimedia keys.
+- Update mapping for Canadian keyboard layouts.
+- Add -resize command line option.
+- Internal WM workaround for Java AWT bug.
+- Fix a GDI bitmap resource leak of window icons.
+- Store pthread_ids and chain IOError handlers to avoid longjmp across threads.
+- Make select() poll and not block if there are unprocessed Windows messages.
+- Better keyboard debugging output.
+- Show any fatal error message.
+
+----- version 1.8.0-1 -----
+Version bump.
+Dependency on openssl replaced by libgcrypt.
+Added patches:
+- Make default DPI match Windows' DPI setting (usually 96).
+- Process one Windows message per wakeup, rather than all of them:
+  http://cygwin.com/ml/cygwin-xfree/2010-01/msg00056.html
+
+----- version 1.7.6-2 -----
+Added patch:
+- Silence erroneous "/tmp mounted in textmode" warning.
+
+----- version 1.7.6-1 -----
+Version bump.
+RECORD extension fixed and reenabled.
+
+----- version 1.7.5-1 -----
+Version bump.
+Composite extension fixed and reenabled.
+Added patches:
+- Added XWinrc FORCEEXIT option to exit without asking for confirmation.
+- If system.XWinrc is malformed, ignore it and try ~/.XWinrc.
+- Added builtin menu configuration if no XWinrc is found.
+- Remove logfile before writing to it.  This is a partial workaround for 
+  logging failures in multiuser setups.
+- /etc/X11/system.XWinrc will not be uninstalled if modified.
+
+----- version 1.7.3-1 -----
+Version bump.
+Composite extension is temporarily disabled until fixed upstream.
+Added patches:
+- Restore -nolock option.
+- Allow resizing of transient windows.
+- Avoid log spam from Fedora 12 wait cursor.
+- Avoid server termination when XDMCP kills internal clipboard manager.
+  Clipboard integration will not be available but the session will continue.
+
+----- version 1.7.1-3 -----
+Added patch:
+- Don't crash if conversion of window name to UTF-8 fails.
+- Discourage other window managers from starting when in multiwindow mode.
+
+----- version 1.7.1-2 -----
+Added patches:
+- Don't exit with error if locale is not supported by X11.
+- Update and better organize options in -help output and XWin(1) manpage.
+
+----- version 1.7.1-1 -----
+Version bump for X11R7.5.
+Added DMX server and clients as separate package.
+Restored support for XFree86-BigFont extension.
+Support for Record extension has been temporarily disabled upstream.
+
+----- version 1.6.5-1 -----
+Version bump.
+Added patches:
+- Fix UT8String and CompoundText clipboard text sharing.
+- Workaround for SWF/Motif bug in multiwindow mode.
+- Tidy up system.XWinrc.
+
+----- version 1.6.4-1 -----
+Version bump.
+Reverted patch:
+- Use bash login shell to execute the commands started from the tray menu.
+  This could cause lengthly delays in launching programs depending on the 
+  contents of the user's .bash_profile.  Instead, xinit-1.1.1-5 launches
+  XWin itself in a login shell, which should have the same effect.
+
+----- version 1.6.3-1 -----
+Version bump.
+Added patch:
+- NET_WM_ICON converters should not use icon alpha on Win2K or <32-bit display.
+
+----- version 1.6.2-2 -----
+Added patches:
+- Always use an authorization cookie for internal clients (fixes clipboard
+  integration in XDMCP sessions).
+- Ensure WM_STATE atom exists in multiwindow mode (fixes BadAtom errors
+  with Solaris X clients).
+- Fix issue with X window menus sometimes appearing beneath the window
+  which activated it.
+- The -logverbose option now affects the verbosity of both the logfile and
+  the console output.
+- Add timestamps to logfile messages.
+
+----- version 1.6.2-1 -----
+Version bump.
+Added patch:
+- Use bash login shell to execute the commands started from the tray menu.
+
+----- version 1.6.1.902-1 -----
+Version bump.
+Added patches:
+- Enable clipboard integration by default, can be disabled with -noclipboard.
+- Fixed crash caused by IPv6 interfaces with no broadcast address.
+
+----- version 1.6.0-10 -----
+Version bump, built for Cygwin 1.7.
+Added patches:
+- added Hebrew keyboard layout detection.
+- even more clipboard debugging messages.
+- fixed numeric keypad input.
+- reverted upstream clipboard change that wreaked havoc with other
+  applications monitoring the clipboard (e.g. MS Office Clipboard, VNC).
+
+----- version 1.5.3-7 -----
+Enabled Xinerama support in rooted and -rootless modes only
+(NOT multiwindow or mwextwm for now).
+Added patches:
+- fixed Latin American (latam) keyboard layout detection
+- remainder of Xming patch 15 (clipboard issues)
+- additional clipboard debugging messages
+- fix for flickering when resizing in multiwindow
+- removed obsolete references to -co flag from Xserver manpage.
+
+----- version 1.5.3-6 -----
+Rebuilt with libXfont-1.3.4 to fix problems with the builtin fonts.
+
+----- version 1.5.3-5 -----
+Restored WindowsWM ("-mwextwm") support for use with xwinwm.
+Added patches:
+- Allow pointer warping to work in multiwindow and rootless modes;
+- Fixed keyboard layouts for nation-specific locales;
+- Fixed long-broken -silent-dup-error option;
+- Force keyboard state onto Virtual Core Keyboard on server startup;
+- Generate scan codes for fake keypresses from speech recognizers;
+- Improve mouse tracking for moving/resizing undecorated windows;
+- Reduce mouse polling interval to 50ms;
+
+----- version 1.5.3-4 -----
+Fix crashing of remote GLX clients built against earlier GLX versions.
+Restore NumLock/CapsLock synchronization.
+
+----- version 1.5.3-3 -----
+Multiwindow mode fix:
+- Windows which remember their placement don't drift on each instance;
+Multihead fixes:
+- Windows don't appear offscreen when the primary monitor isn't upper-left.
+- XWin dialogs are placed near the tray icon.
+Numerous clipboard fixes.
+Built-in fonts are used by default; server-side fonts remain available.
+Temporary workaround for NumLock/CapsLock sync issues.
+Individual logs for each display (e.g. /var/log/XWin.0.log).
+
+----- version 1.5.3-2 -----
+Additional fixes to multiwindow mode:
+- Qt4 program icons display correctly;
+- Window geometry take window decorations into account;
+- Shaped window decorations do not appear and disappear.
+Moved system.XWinrc to /etc/X11.
+Moved XWin.log to /var/log.
+Fixed up man pages.
+Added patch to fix build when Xv is disabled and videoproto not installed.
+
+----- version 1.5.3-1 -----
+Version bump.
+Added Xfake server.
+
+----- version 1.5.2-1 -----
+Version bump for X11R7.4.
+Incorporated several patches from the Xming project and from Jon Turney.
+Removed support for several obsolete X extensions.
+Added EXPERIMENTAL Composite support.
+
+----- version 1.3.0.0-1 -----
+Initial Cygwin release of modular X11R7.
+Many thanks to Jon Turney for the patches to get this working.
+
+
+Cygwin port maintained by:
+http://x.cygwin.com/

@@ -1,0 +1,196 @@
+NAME=xorg-server
+VERSION=21.1.12
+RELEASE=1
+
+inherit xorg
+inherit meson
+
+case ${RELEASE} in
+     *git*)
+	GIT_REV=${RELEASE##*git}
+	GIT_URI="https://gitlab.freedesktop.org/jturney/xserver.git"
+
+	inherit git
+     ;;
+     *)
+	GIT_TAG="xserver-cygwin-${PVR}"
+
+	SRC_URI="https://gitlab.freedesktop.org/jturney/xserver/-/archive/${GIT_TAG//./-}/xserver-${GIT_TAG//./-}.tar.bz2"
+	SRC_DIR="xserver-${GIT_TAG//./-}"
+     ;;
+esac
+
+SRC_URI+="
+xorg-backtrace
+xvfb-run
+xvfb-run.1
+"
+
+DEPS_PATH="/usr/lib/xorg/modules:/usr/lib/xorg/modules/extensions:/usr/lib/xorg/modules/input:/usr/lib/xorg/modules/multimedia"
+BUILD_REQUIRES="\
+bison \
+flex \
+ImageMagick \
+ \
+windowsdriproto \
+xorgproto \
+ \
+libfontenc-devel \
+libfreetype-devel \
+libGL-devel \
+libnettle-devel \
+libpixman1-devel \
+libtirpc-devel \
+libX11-devel \
+libXRes-devel \
+libXau-devel \
+libXaw-devel \
+libXdmcp-devel \
+libXext-devel \
+libXfont2-devel \
+libXi-devel \
+libXinerama-devel \
+libXmu-devel \
+libXpm-devel \
+libXrender-devel \
+libXtst-devel \
+libxcb-composite-devel \
+libxcb-ewmh-devel \
+libxcb-icccm-devel \
+libxcb-image-devel \
+libxcb-keysyms-devel \
+libxcb-randr-devel \
+libxcb-render-devel \
+libxcb-render-util-devel \
+libxcb-shape-devel \
+libxcb-util-devel \
+libxcb-xfixes-devel \
+libxcb-xkb-devel \
+libxcvt-devel \
+libxkbfile-devel \
+ \
+font-util \
+khronos-opengl-registry \
+python39-lxml \
+xkbcomp-devel \
+xtrans \
+ \
+xkeyboard-config
+"
+
+CATEGORY="X11"
+PKG_NAMES="${PN} ${PN}-common ${PN}-extra ${PN}-devel ${PN}-xorg xwinclip"
+
+xorg_server_SUMMARY="X.Org X server"
+xorg_server_common_SUMMARY="X.Org X server common data"
+xorg_server_extra_SUMMARY="X.Org Xephyr, Xnest and Xvfb servers"
+xorg_server_devel_SUMMARY="X.Org SDK for developing drivers and extensions for the Xorg X server"
+xorg_server_xorg_SUMMARY="X.Org Xorg modular X server"
+xwinclip_SUMMARY="Windows clipboard integration tool for the X.Org X server"
+
+xorg_server_REQUIRES="bash xorg-server-common"
+xorg_server_common_REQUIRES="dri-drivers xauth xcursor-themes xkbcomp xkeyboard-config"
+xorg_server_common_OBSOLETES="xorg-server-dmx"
+xorg_server_extra_REQUIRES="util-linux xauth xorg-server-common"
+xorg_server_xorg_REQUIRES="xf86-video-dummy xf86-video-nested xorg-server-common"
+xorg_server_devel_REQUIRES="xorg-server-xorg xorgproto"
+
+xorg_server_CONTENTS="--exclude=*.la etc/ usr/bin/X usr/bin/XWin.exe usr/bin/cygnativeGLthunk.dll usr/share/man/man*/XWin*"
+xorg_server_common_CONTENTS="usr/bin/xorg-backtrace usr/lib/xorg/protocol.txt usr/share/man/man1/Xserver* usr/share/doc/Cygwin/xorg-server.README usr/share/doc/xorg-server/COPYING usr/share/doc/xorg-server/README.md var/"
+xorg_server_extra_CONTENTS="--exclude=*XWin* --exclude=*Xorg* --exclude=*Xserver* --exclude=*backtrace* --exclude=usr/bin/X usr/bin/X* usr/bin/xvfb-run usr/share/man/man1/X* usr/share/man/man1/xvfb-run*"
+xorg_server_devel_CONTENTS="--exclude=usr/lib/xorg/protocol.txt --exclude=*.dll usr/lib usr/include usr/share/aclocal"
+xorg_server_xorg_CONTENTS="--exclude=*.a usr/bin/Xorg.exe usr/lib/xorg/modules/ usr/share/man/man1/Xorg* usr/share/man/man4 usr/share/man/man5/xorg*"
+xwinclip_CONTENTS="usr/bin/xwinclip.exe usr/share/man/man1/xwinclip*"
+
+xorg_server_xorg_PROVIDES="xserver-video-abi25"
+
+PKG_IGNORE="usr/share/doc/xorg-server/Xserver-DTrace.*"
+
+# xorg-server developer documentation is not installed, so we do not package any
+# of it.  But we may wish to verify that it can be built from the source package.
+if [ ! -z "$XORG_SERVER_BUILD_DEVDOC" ]; then
+	ENABLE_DOCS="-Ddevel-docs=true -Ddocs-pdf=true"
+	BUILD_REQUIRES+="xorg-sgml-doctools"
+else
+	ENABLE_DOCS=""
+fi
+
+# XC-Security required for untrusted X11 forwarding, but read this first:
+#   http://cygwin.com/ml/cygwin-xfree/2008-11/msg00154.html
+# To enable, add:
+#	-Dxcsecurity=true \
+
+# To enable debugging messages, use:
+#       --buildtype=debug
+
+# serverconfigdir is hardwired in meson as $libdir/xorg, so can't be set to
+# /usr/lib/X11, as previously
+
+src_compile() {
+	cd ${S}
+	cygmeson \
+		${ENABLE_DOCS} \
+		-Dpciaccess=false \
+		-Dint10=false \
+		-Dsystemd_logind=false \
+		-Dxephyr=true \
+		-Dxnest=true \
+		-Dxvfb=true \
+		-Dxwin=true \
+		-Dxorg=true \
+		-Dhal=false \
+		-Dudev=false \
+		-Ddri1=false \
+		-Ddri2=false \
+		-Ddri3=false \
+		-Dxf86bigfont=true \
+		-Dxv=false \
+		-Dxvmc=false \
+		-Dglamor=false \
+		-Dsha1=CryptoAPI \
+		-Dlog_dir=/var/log/xwin \
+		-Ddefault_font_path=catalogue:/etc/X11/fontpath.d,built-ins \
+		-Dxkb_default_rules=base \
+		-Dxkb_output_dir=/var/lib/xkb \
+		-Dbuilder_addr=cygwin@cygwin.com \
+		"-Dbuilder_string=Package: version ${PVR} built $(date +%Y-%m-%d)" \
+		"-Dvendor_name=The Cygwin/X Project" \
+		"-Dvendor_name_short=Cygwin/X" \
+		"-Dvendor_web=https://x.cygwin.com/"
+	cygninja -C ${CHOST}
+}
+
+src_install() {
+	cd ${S}
+	meson_install
+
+	# ensure cygport doesn't delete the implibs
+	rm -f ${D}/usr/lib/xorg/modules/*.la
+
+	# remove useless multimedia i2c drivers
+	rm -rf ${D}/usr/lib/xorg/modules/multimedia
+
+	# remove useless modeline tools
+	rm -f ${D}/usr/bin/{cvt,gtf}.exe
+	rm -f ${D}/usr/share/man/man1/{cvt,gtf}.1*
+
+	# remove useless input quirks config file
+	rm -f ${D}/usr/share/X11/xorg.conf.d/10-quirks.conf
+
+	make_etc_defaults /etc/X11/system.XWinrc
+
+	dodir /var/log/xwin
+	chmod 0777  ${D}/var/log/xwin
+        if [ `stat -c "%a" ${D}/var/log/xwin` != '777' ]; then
+           error "Failed to set correct permissions on /var/log/xwin directory"
+        fi
+	keepdir /var/log/xwin
+
+	cp ${S}/xorg-backtrace ${D}/usr/bin/xorg-backtrace
+
+	dobin ${S}/xvfb-run
+	doman ${S}/xvfb-run.1
+
+	# create X symlink
+	ln -sf XWin ${D}/usr/bin/X
+}

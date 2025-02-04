@@ -1,0 +1,81 @@
+#!/usr/bin/perl
+#
+# script for creating a backtrace on crash
+# based on http://lists.x.org/archives/xorg-devel/2010-October/013814.html
+#
+
+$timeout = 60;
+$xtracmds= "/etc/X11/xorg-backtrace-cmds";
+
+
+$pid=$ARGV[0];
+if ($pid == 0) {
+    print "Usage: $0 <pid>\n";
+    exit 1;
+}
+
+if (! -e "/usr/bin/gdb") {
+    print "Install gdb to get reasonable backtraces\n";
+    exit 2;
+}
+
+if (! -e "/etc/setup/xorg-server-debuginfo.lst.gz") {
+    print "Install xorg-server-debuginfo to get symbols for backtraces\n";
+}
+
+print "Attempting gdb backtrace on pid $pid\n";
+
+$SIG{ALRM} = sub { die "timeout starting gdb" };
+alarm $timeout;
+
+open STDERR, ">&STDOUT";
+
+use FileHandle;
+use IPC::Open2;
+$gdb = open2 (*R, *W, "/usr/bin/gdb -n -p $pid");
+
+$SIG{ALRM} = sub { kill QUIT, $gdb; sleep 1; kill KILL, $gdb; die "timeout using gdb" };
+alarm $timeout;
+
+
+print "\n==================== GDB Backtrace ============\n\n";
+
+print W "set prompt\necho \\n===info\\n\n";
+print W "thread apply all bt full\necho ===btend\\n\n";
+
+$_=<R>;			# GNU gdb version
+print;
+
+while (<R>) {
+    last if /^===info/;
+    print if /^This GDB was configured as/;
+}
+
+print "\n==================== Backtrace ================\n";
+$fno = "";
+$fls = 0;
+$o   = "";
+$use = 0;
+while (<R>) {
+    last if /^===btend/;
+    print $_;
+}
+
+if (-e $xtracmds) {
+    print W "source -v $xtracmds\necho ===cmds\\n\n";
+    print "\n==================== Extra Commands ===========\n\n";
+    while (<R>) {
+	last if /^===cmds/;
+	print unless /^\+echo ===cmds/;
+    }
+}
+
+print "\n==================== Backtrace End ============\n\n";
+
+print W "quit\n\n";
+waitpid ($gdb, 0);
+
+close R;
+close W;
+
+exit 0;

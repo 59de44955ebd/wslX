@@ -78,6 +78,22 @@ In addition to the official instructions, wslX supports the following extra inst
 * `#<DISTROS> ... #</DISTROS>`  
   Same as above, but those special comments are instead *inside the root menu section*, and again mark the section that "(Re)Create application menus" will overwrite.
 
+## Compiling XWin.exe
+You need a recent version of Cygwin 64-bit. Open a CMD/PowerShell window, cd to your Cygwin's root folder (e.g. C:\cygwin64) and execute the following to install all required prerequisites:
+```
+$ setup-x86_64.exe -P binutils,bison,cygport,flex,gcc-core,git,meson,ninja,pkg-config,windowsdriproto,xorgproto,libfontenc-devel,libfreetype-devel,libGL-devel,libnettle-devel,libpixman1-devel,libtirpc-devel,libX11-devel,libXRes-devel,libXau-devel,libXaw-devel,libXdmcp-devel,libXext-devel,libXfont2-devel,libXi-devel,libXinerama-devel,libXmu-devel,libXpm-devel,libXrender-devel,libXtst-devel,libxcb-aux-devel,libxcb-composite-devel,libxcb-ewmh-devel,libxcb-icccm-devel,libxcb-image-devel,libxcb-keysyms-devel,libxcb-randr-devel,libxcb-render-devel,libxcb-render-util-devel,libxcb-shape-devel,libxcb-util-devel,libxcb-xfixes-devel,libxcb-xkb-devel,libxcvt-devel,libxkbfile-devel,font-util,ImageMagick,khronos-opengl-registry,python3-lxml,xkbcomp-devel,xtrans,cmake
+```
+Then switch to an interactive Cygwin64 shell:
+```
+$ bin\bash --login
+```
+Run the following to compile and strip XWin.exe:
+```
+$ git clone https://github.com/59de44955ebd/wslX.git
+$ cd wslX/src
+$ cygport xorg-server.cygport compile
+$ strip xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/x86_64-pc-cygwin/hw/xwin/XWin.exe
+```
 ## To-dos
 * Language localisation (currently menu items are english only)
 * Port utilities make-menus.exe and wsl-open-with.exe from Python to C

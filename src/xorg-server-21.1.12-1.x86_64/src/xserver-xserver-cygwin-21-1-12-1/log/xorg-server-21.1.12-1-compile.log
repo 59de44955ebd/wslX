@@ -1,0 +1,32 @@
+cygport 0.36.9 
+
+PF = xorg-server-21.1.12-1
+S = /home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1
+B = /home/fluxus/xorg-server-21.1.12-1.x86_64/build
+D = /home/fluxus/xorg-server-21.1.12-1.x86_64/inst
+C = /home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/CYGWIN-PATCHES
+T = /home/fluxus/xorg-server-21.1.12-1.x86_64/temp
+CBUILD = x86_64-pc-cygwin
+CHOST = x86_64-pc-cygwin
+CTARGET = x86_64-pc-cygwin
+CC = gcc
+CFLAGS = -ggdb -O2 -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=3 -fstack-protector-strong --param=ssp-buffer-size=4 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+CPPFLAGS =
+CXX = g++
+CXXFLAGS = -ggdb -O2 -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=3 -fstack-protector-strong --param=ssp-buffer-size=4 -Werror=return-type -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+F77 = gfortran
+FFLAGS = -ggdb -O2 -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=3 -fstack-protector-strong --param=ssp-buffer-size=4 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+FC = gfortran
+FCFLAGS = -ggdb -O2 -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=3 -fstack-protector-strong --param=ssp-buffer-size=4 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+GOC = gccgo
+GOFLAGS = -ggdb -O2 -pipe -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+OBJC = gcc
+OBJCFLAGS = -ggdb -O2 -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=3 -fstack-protector-strong --param=ssp-buffer-size=4 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+OBJCXX = g++
+OBJCXXFLAGS = -ggdb -O2 -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=3 -fstack-protector-strong --param=ssp-buffer-size=4 -Werror=return-type -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/build=/usr/src/debug/xorg-server-21.1.12-1 -ffile-prefix-map=/home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1=/usr/src/debug/xorg-server-21.1.12-1
+LDFLAGS =
+LIBS =
+MAKEOPTS = -j 5
+
+
+/home/fluxus/xorg-server.cygport: line 130: cd: /home/fluxus/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1: No such file or directory
