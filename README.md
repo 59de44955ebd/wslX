@@ -111,10 +111,10 @@ in a CMD shell.
     
     If wslX is running, you can start a Cygwin GUI app like this (in a Cygwin shell):
     ```
-    DISPLAY=:0 leafpad
+    $ DISPLAY=:0 leafpad
     ```
     Or simply add line `export DISPLAY=:0` to your Cygwin's .bashrc file.
-    
+
 ## Configuration (system.XWinrc)
 
 wslX, like other X-servers, is configured by a plain text file called "system.XWinrc", which can be found at:   
