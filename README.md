@@ -88,8 +88,8 @@ in a CMD shell.
 
     ```
     MENU xfsettingsd {
-        "Start" EXEC "wsl.exe dbus-launch xfsettingsd --replace --no-daemon &"
-        "Stop" EXEC "wsl.exe pkill xfsettingsd; pkill dbus-daemon; pkill dbus-launch"
+        Start EXEC "wsl.exe dbus-launch xfsettingsd --replace --no-daemon &"
+        Stop EXEC "wsl.exe pkill xfsettingsd; pkill dbus-daemon; pkill dbus-launch"
     }
     MENU root {
         #<DISTROS>
