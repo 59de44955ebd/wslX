@@ -46,7 +46,7 @@ Run `unregister_open_with_linux.cmd` to remove the context menu item from Explor
 reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
 `  
 in a CMD shell.
-* wslX tries to identify common Linux distros and use an appropiate icon for them. If it fails, e.g. because you use some custom distro name, it uses a generic penguin icon instead. You can provide your own icon by adding a file called `[your distro name].ico` to folder `[wslX folder]\data\default-icons\distros\`. Note that the .ico file must be uncompressed, "packed" icons (PNG format) are not supported.
+* wslX tries to identify common Linux distros and use an appropiate icon for them. If it fails, e.g. because you use some custom distro name, it uses a generic penguin icon instead. You can provide your own icon by adding a file called `[your distro name].ico` to folder `[wslX folder]\data\default-icons\distros\`. Note that .ico files must be uncompressed, "packed" icons (PNG format) are not supported.
 * When searching for Linux GUI apps, for each found Linux distro 2 links are added to folder "wslX" in the Windows startmenu:
   * "Shell\\WSL-[distro-name]" for directly opening a bash shell for this distro.
   * "Desktop\\WSL-[distro-name]" for starting a fullscreen desktop session for this distro.
