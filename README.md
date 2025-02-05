@@ -56,10 +56,10 @@ Run `unregister_open_with_linux.cmd` to remove the context menu item from Explor
 * The Linux GUI app detection depends on Python 3 and python3-gi resp. python-gobject being available inside the Linux distro. In Debian-based distros both are usually preinstalled, if app detection fails, run `sudo apt install python3-gi` and then try again. In Arch-based distros use `sudo pacman -S python-gobject` instead.
 
 * "Open with Linux..." is added to the *real* Explorer context menu, not to this weird trailer menu that came with Windows 11. You can deactivate the latter by running  
-`
-reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
-`  
-in a CMD shell.
+    ```
+    $ reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+    ```  
+    in a CMD shell.
 
 * wslX tries to identify common Linux distros and use an appropriate icon for them. If it fails, e.g. because you use some custom distro name, it uses a generic penguin icon instead. You can provide your own icon by adding a file called `[your-distro-name].ico` to folder `[wslX folder]\data\default-icons\distros\`. Note that .ico files must be uncompressed, "packed" icons (PNG format) are not supported.
 
@@ -129,10 +129,10 @@ Since wslX itself is installed and executed only in user space, despite its name
 The `EXEC` instruction, which is the core of all menu commands, does not try to use Cygwin's sh command as in the original Cygwin/X implementation, but instead executes `start` in a (hidden) cmd.exe process.
 
 In addition to the official instructions, wslX supports the following extra instructions:
-* LEFTBUTTON  
+* `LEFTBUTTON`  
   If this line is found in the config file (default), the system tray icon behaves like the Windows start menu icon and opens the menu by a left mouse click, otherwise the menu is opened by a right mouse click.
 
-* DARK  
+* `DARK`  
   If this line is found in the config file (default), the system tray menu as well as Linux GUI app title bars always use dark mode, otherwise dark mode is only used if Windows uses a dark theme.
 
 * `#<AUTOGEN> ... #</AUTOGEN>`  
