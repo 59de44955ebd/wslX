@@ -141,6 +141,10 @@ In addition to the official instructions, wslX supports the following extra inst
 * `#<DISTROS> ... #</DISTROS>`  
   Same as above, but those special comments are instead *inside the root menu section*, and again mark the section that "(Re)Create application menus" will overwrite.
 
+* In addition to `ALWAYSONTOP` wslX also suports the instruction `ALPHA` to be added to the `DEFAULTSYSTEMMENU` section, which allows to make any window transparent. This is just a gimmick and currently hard-coded to an alpha value of 222 (about 87%), but it's activated by default in the config file, and therefor all Linux app windows have both an extra "Always on Top" as well as a "Transparent" item added to their system menu, see this screenshot of a transparent Xfce-Terminal window on top of a Windows explorer window:   
+
+![wslX in Windows 11](screenshots/xfce-terminal-transparent.png)
+
 ## Compiling XWin.exe
 
 You need a recent version of Cygwin 64-bit. Open a CMD/PowerShell window, cd to your Cygwin's root folder (e.g. C:\cygwin64) and execute the following to install all required prerequisites:
