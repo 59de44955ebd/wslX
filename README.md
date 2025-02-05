@@ -18,9 +18,9 @@ wslX is installed and runs solely in user space, it doesn't touch system registr
 
 * "Open with Linux..." context menu in Explorer that allows to open currently selected files directly in some Linux GUI app. This is not implemented as a shell extension, but just as single item added to HKEY_CURRENT_USER\Software\Classes\*\shell, and therefor lightweight regarding Explorer. The actual  menu is displayed by an independant process.
 
-* Dark window title bars of Linux GUI app windows, if either Windows currently uses a dark theme or dark mode is explitely activated in system.XWinrc (see below). This is missing in other Windows X-servers like VcXsrv or Xming.
+* Dark window title bars of Linux GUI app windows, if either Windows currently uses a dark theme or dark mode is explicitly activated in system.XWinrc (see below). This is missing in other Windows X-servers like VcXsrv or Xming.
 
-* Dark system tray menu (again if either Windows currently uses a dark theme or dark mode is explitely activated in system.XWinrc)
+* Dark system tray menu (again if either Windows currently uses a dark theme or dark mode is explicitly activated in system.XWinrc)
 
 * Listening for TCP/IP connections is by default activated and listing for unix domain sockets by default deactivated, which is the opposite of Cygwin/X's default server configuration (unix domain sockets don't work in between Cygwin's pseudo-Linux layer and WSL Linux).
 
