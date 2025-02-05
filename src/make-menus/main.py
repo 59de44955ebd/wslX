@@ -92,7 +92,7 @@ def make_ico(app_name, src_file):
         if im_rgba.size != ICO_SIZE:
             im_rgba = im_rgba.resize(ICO_SIZE)
 
-    # to make Windows render the.icos decently, we have to force a black background
+    # To make Windows render the .ico decently, we have to force a black background
     mask = im_rgba.split()[-1]
     alpha_composite = Image.alpha_composite(BLACK_BG, im_rgba)
     alpha_composite.putalpha(mask)
@@ -147,8 +147,6 @@ for distro in sorted(distros, key=str.casefold):
     #
     ########################################
     print('Creating startmenu shortcuts...')
-
-#    make_startmenu_shell_shortcut(distro, distro_ico)
 
     lnk_file = os.path.join(SHELL_SHORTCUT_DIR, f'WSL-{distro}.lnk')
     command = f"$Shortcut=(New-Object -comObject WScript.Shell).CreateShortcut('{lnk_file}');$Shortcut.IconLocation='{distro_ico}';$Shortcut.TargetPath='C:\\Windows\\System32\\wsl.exe';$Shortcut.Arguments='-d {distro} --cd ~';$Shortcut.Save()"
@@ -265,7 +263,7 @@ else:
     m = re.search(r'\nROOTMENU[\s]+([^\s]+)[\s]*\n', rc_text, re.IGNORECASE)
     if m:
         rootmenu_name = m.group(1)
-        #find "MENU<ws>root<ws>{"
+        # Find "MENU<ws>root<ws>{"
         m = re.search(r'MENU[\s]+' + rootmenu_name + r'[\s]+{[\s]*\n', rc_text, re.IGNORECASE)
         if m:
             root_menu_start = m.end()
@@ -281,12 +279,5 @@ print('Reloading .XWinrc file...\n')
 
 # Tell xwin to reload RC_FILE
 user32.SendMessageW(user32.FindWindowW('wslx', None), WM_RELOAD_PREFS, 0, 0)
-
-# Add "Open with Linux..." item to Explorer context menu
-#register_file = os.path.join(APP_DIR, '..', 'register.cmd')
-#if os.path.isfile(register_file):
-#    si = subprocess.STARTUPINFO()
-#    si.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-#    subprocess.run(register_file, startupinfo=si)
 
 print('Done.')

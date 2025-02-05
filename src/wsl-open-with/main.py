@@ -130,18 +130,18 @@ user32.DefWindowProcW.argtypes = (HWND, c_uint, WPARAM, LPARAM)
 
 user32.DestroyWindow.argtypes = (HWND,)
 
-user32.DispatchMessageW.argtypes = (POINTER(MSG),)
+#user32.DispatchMessageW.argtypes = (POINTER(MSG),)
 
 user32.GetCursorPos.argtypes = (POINTER(POINT),)
 
 user32.GetIconInfo.argtypes = (HICON, LPVOID)
 
-user32.GetMessageW.argtypes = (POINTER(MSG), HWND, UINT, UINT)
+#user32.GetMessageW.argtypes = (POINTER(MSG), HWND, UINT, UINT)
 
 user32.LoadImageW.argtypes = (HINSTANCE, LPCWSTR, UINT, INT, INT, UINT)
 user32.LoadImageW.restype = HANDLE
 
-user32.MessageBoxW.argtypes = (HWND, LPCWSTR, LPCWSTR, UINT)
+#user32.MessageBoxW.argtypes = (HWND, LPCWSTR, LPCWSTR, UINT)
 
 user32.PostMessageW.argtypes = (HWND, UINT, LPVOID, LPVOID)
 user32.PostMessageW.restype = LONG_PTR
@@ -152,10 +152,9 @@ user32.SetForegroundWindow.argtypes = (HWND,)
 
 user32.SetMenuItemInfoW.argtypes = (HMENU, UINT, BOOL, POINTER(MENUITEMINFOW))
 
-user32.TrackPopupMenu.argtypes = (HANDLE, UINT, INT, INT, INT, HANDLE, c_void_p)
 user32.TrackPopupMenuEx.argtypes = (HANDLE, UINT, INT, INT, HANDLE, c_void_p)
 
-user32.TranslateMessage.argtypes = (POINTER(MSG),)
+#user32.TranslateMessage.argtypes = (POINTER(MSG),)
 
 uxtheme.SetPreferredAppMode = uxtheme[135]
 uxtheme.FlushMenuThemes = uxtheme[136]
@@ -194,14 +193,14 @@ if __name__ == '__main__':
 
     pson_file = os.path.join(DATA_DIR, 'menu_open.pson')
     if not os.path.isfile(pson_file):
-        #user32.MessageBoxW(None, 'No applications found', '', 0x000000030)
+        #user32.MessageBoxW(None, 'No applications found', 'Warning', 0x000000030)
         sys.exit(0)
 
     try:
         with open(pson_file, 'r') as f:
             menu_config = eval(f.read())
     except:
-        #user32.MessageBoxW(None, 'No applications found', '', 0x000000030)
+        #user32.MessageBoxW(None, 'No applications found', 'Warning', 0x000000030)
         sys.exit(0)
 
     newclass = WNDCLASSEX()
