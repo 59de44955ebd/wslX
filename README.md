@@ -55,16 +55,18 @@ Run `unregister_open_with_linux.cmd` to remove the context menu item from Explor
 
 * The Linux GUI app detection depends on Python 3 and python3-gi resp. python-gobject being available inside the Linux distro. In Debian-based distros both are usually preinstalled, if app detection fails, run `sudo apt install python3-gi` and then try again. In Arch-based distros use `sudo pacman -S python-gobject` instead.
 
-* "Open with Linux..." is added to the *real* Explorer context menu, not to this weird trailer menu that came with Windows 11. You can deactivate the latter by running  
+* "Open with Linux..." is added to the *real* Explorer context menu, not to this weird trailer menu that came with Windows 11. You can deactivate the latter by executing  
     ```
-    $ reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
+    reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve
     ```  
-    in a CMD shell.
+    in CMD/PowerShell.
 
 * wslX tries to identify common Linux distros and use an appropriate icon for them. If it fails, e.g. because you use some custom distro name, it uses a generic penguin icon instead. You can provide your own icon by adding a file called `[your-distro-name].ico` to folder `[wslX folder]\data\default-icons\distros\`. Note that .ico files must be uncompressed, "packed" icons (PNG format) are not supported.
 
 * When searching for Linux GUI apps, for each found Linux distro 2 links are added to folder "wslX" in the Windows startmenu:
-  * "Shell\\WSL-[distro-name]" for directly opening a bash shell for this distro.
+
+  * "Shell\\WSL-[distro-name]" for directly opening a bash shell for this distro (with the distro's icon as window icon, resp. as tab icon if you use Windows-Terminal as console host).
+
   * "Desktop\\WSL-[distro-name]" for starting a fullscreen desktop session for this distro.
 
   Desktop session links are by default configured for Xfce and will only work if you have a Xfce desktop environment (DE) installed. You can manually edit file `data\DesktopSession.ini` inside the wslX program folder if you want to use a different lightweight DE like e.g. LXDE or LXQt. 
