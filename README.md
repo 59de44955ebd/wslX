@@ -1,6 +1,6 @@
 # wslX - an enhanced Windows X-server for WSL
 
-wslX is a patched/extended and repacked version of [Cygwin](https://www.cygwin.com/)'s [Cygwin/X](https://x.cygwin.com/) X.Org server `XWin.exe`, explicitely meant for integrating local WSL Linux GUI applications into the Windows workflow. It supports any Linux distro, but it works best and was mainly tested in combination with a Xfce desktop environment, that's the recommended environment to use in your distro(s).
+wslX is a patched/extended and repacked version of [Cygwin](https://www.cygwin.com/)'s [Cygwin/X](https://x.cygwin.com/) X.Org server `XWin.exe`, explicitly meant for integrating local WSL Linux GUI applications into the Windows workflow. It supports any Linux distro, but it works best and was mainly tested in combination with a Xfce desktop environment, that's the recommended environment to use in your distro(s).
 
 It's an alternative for [VcXsrv](https://sourceforge.net/projects/vcxsrv/), [Xming](http://www.straightrunning.com/XmingNotes/), [X410](https://x410.dev/) and [WSLg](https://github.com/microsoft/wslg), with a couple of extra features.
 
