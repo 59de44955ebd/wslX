@@ -2,7 +2,7 @@
 
 wslX is a patched/extended and repacked version of [Cygwin](https://www.cygwin.com/)'s [Cygwin/X](https://x.cygwin.com/) X.Org server `XWin.exe`, explicitely meant for integrating local WSL Linux GUI applications into the Windows workflow. It supports any Linux distro, but it works best and was mainly tested in combination with a Xfce desktop environment, that's the recommended environment to use in your distro(s).
 
-It's an alternative for [VcXsrv](https://sourceforge.net/projects/vcxsrv/), [Xming](http://www.straightrunning.com/XmingNotes/) and [WSLg](https://github.com/microsoft/wslg), with a couple of extra features.
+It's an alternative for [VcXsrv](https://sourceforge.net/projects/vcxsrv/), [Xming](http://www.straightrunning.com/XmingNotes/), [X410](https://x410.dev/) and [WSLg](https://github.com/microsoft/wslg), with a couple of extra features.
 
 wslX is installed and runs solely in user space, it doesn't touch system registry (HKLM) and never requires elevated privileges.
 
@@ -61,7 +61,7 @@ reg.exe add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\
 `  
 in a CMD shell.
 
-* wslX tries to identify common Linux distros and use an appropriate icon for them. If it fails, e.g. because you use some custom distro name, it uses a generic penguin icon instead. You can provide your own icon by adding a file called `[your distro name].ico` to folder `[wslX folder]\data\default-icons\distros\`. Note that .ico files must be uncompressed, "packed" icons (PNG format) are not supported.
+* wslX tries to identify common Linux distros and use an appropriate icon for them. If it fails, e.g. because you use some custom distro name, it uses a generic penguin icon instead. You can provide your own icon by adding a file called `[your-distro-name].ico` to folder `[wslX folder]\data\default-icons\distros\`. Note that .ico files must be uncompressed, "packed" icons (PNG format) are not supported.
 
 * When searching for Linux GUI apps, for each found Linux distro 2 links are added to folder "wslX" in the Windows startmenu:
   * "Shell\\WSL-[distro-name]" for directly opening a bash shell for this distro.
@@ -76,20 +76,7 @@ in a CMD shell.
 
 * Unlike the original Cygwin/X XWin.exe, wslX doesn't try to write to a log file, and therefor can also be run from a read-only directory. All logging is instead written to the Windows debug console and can be analyzed using Sysinternals [DebugView](https://learn.microsoft.com/de-de/sysinternals/downloads/debugview).
 
-* wslX is meant for WSL, but if have GUI apps like e.g. Leafpad or SciTE installed inside a local Cygwin installation, you can also use it instead of Cygwin's default X-server to allow drag-and-drop from Explorer to such Cygwin app windows. Since wslX translates local Windows paths to /mnt/c/..., but Cygwin instead needs /cygdrive/c/..., just create a symbolic link inside Cygwin like this (in a Cygwin shell):
-    ```
-    $ cd /
-    $ ln -s /cygdrive mnt
-    ```
-    Now Cygwin can also handle such /mnt/c/..., /mnt/d/... etc. paths and therefor supports drag-and-drop from Explorer.
-    
-    If wslX is running, you can start a Cygwin GUI app like this (in a Cygwin shell):
-    ```
-    DISPLAY=:0 leafpad
-    ```
-    Or simply add line `export DISPLAY=:0` to your Cygwin's .bashrc file.
-
-* For appearance settings (like a dark theme etc.) to work accurately in multi-window mode (i.e. without a full desktop environment) many apps in Xfce require `xfsettingsd` to run. You might add a line like this to the root menu section in your system.XWinrc file:
+* For appearance settings (like a dark theme etc.) to work accurately in multi-window mode (i.e. without a full desktop environment) many apps in Xfce require `xfsettingsd` to run. You might add a line like this to the root menu section in your system.XWinrc file (insert `-d [distro-name]` after wsl.exe if you have multiple distros installed):
     ```
     ...
     SEPARATOR
@@ -97,8 +84,6 @@ in a CMD shell.
     SEPARATOR
     ...
     ```
-    Add "-d [distro name]" after wsl.exe if you have multiple distros installed.
-
     Or a submenu that allows to both start and stop xfsettingsd by mouse click:
 
     ```
@@ -116,6 +101,20 @@ in a CMD shell.
         ...
     }
     ```
+
+* wslX is meant for WSL, but if have GUI apps like e.g. Leafpad or SciTE installed inside a local Cygwin installation, you can also use it instead of Cygwin's default X-server to allow drag-and-drop from Explorer to such Cygwin app windows. Since wslX translates local Windows paths to /mnt/c/..., but Cygwin instead needs /cygdrive/c/..., just create a symbolic link inside Cygwin like this (in a Cygwin shell):
+    ```
+    $ cd /
+    $ ln -s /cygdrive mnt
+    ```
+    Now Cygwin can also handle such /mnt/c/..., /mnt/d/... etc. paths and therefor supports drag-and-drop from Explorer.
+    
+    If wslX is running, you can start a Cygwin GUI app like this (in a Cygwin shell):
+    ```
+    DISPLAY=:0 leafpad
+    ```
+    Or simply add line `export DISPLAY=:0` to your Cygwin's .bashrc file.
+    
 ## Configuration (system.XWinrc)
 
 wslX, like other X-servers, is configured by a plain text file called "system.XWinrc", which can be found at:   
