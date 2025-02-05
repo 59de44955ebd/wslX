@@ -10,7 +10,7 @@ wslX is installed and runs solely in user space, it doesn't touch system registr
 
 * Drag-and-drop support - this is wslX's core feature. If a Linux GUI app - e.g. a text editor, image viewer/editor, media player etc. - natively supports dropping files into its window, drag-and-drop actions from Windows explorer (including the desktop) are automatically converted to X drop events, and the dropped file paths are converted to WSL Linux paths (e.g. /mnt/c/...). Windows shortcut files (.LNK) are resolved on the fly. So you can quickly open files in WSL Linux GUI apps by dragging and dropping them from explorer.
 
-* Implementing drag-and-drop also for the opposite direction - from WSL Linux file managers to Windows explorer - would be tricky, but wslX automatically converts filesystem content in the Linux/X-clipboard to CF_HDROP content in the Windows clipboard (again automatically converting paths for the target system), so you can copy files and folders in a WSL Linux file manager and then paste them into a Windows explorer window to copy them (this was successfully tested with Thunar, PCManFM, Dolphin and Nautilus).
+* Implementing drag-and-drop also for the opposite direction - from WSL Linux file managers into Windows application windows - would be tricky, but wslX automatically converts filesystem content in the Linux/X-clipboard to CF_HDROP content in the Windows clipboard (again automatically converting paths for the target system), so you can copy files and folders in a WSL Linux file manager and then paste them e.g. into a Windows explorer window to copy them (this was successfully tested with Thunar, PCManFM, Dolphin and Nautilus).
 
 * Menu icons in the configurable system tray menu (see screenshot below)
 
