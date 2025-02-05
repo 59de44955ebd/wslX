@@ -25,14 +25,6 @@ trayaboutmessage=
 #include <shlwapi.h>
 #include <wchar.h>
 
-//#include <string>
-//#include <stdlib.h>
-
-//#include <cstring>
-//#include <cstdlib>
-
-
-
 #define MSVCRTLIGHT
 #define DARK_MENU
 
@@ -55,10 +47,10 @@ typedef PreferredAppMode(*fnSetPreferredAppMode)(PreferredAppMode appMode);
 #define MAX_VAL_LEN 	2048
 #define MAX_VERB_LEN	64
 
-#define TRAYICONID 1 // ID number for the Notify Icon
-#define WM_SWM_TRAYMSG	WM_APP  // the message ID sent to our window
-#define WM_SWM_EXIT WM_APP + 1 // close the window
-#define WM_SWM_INFO WM_APP + 2 // show info dialog
+#define TRAYICONID 1 			// ID number for the Notify Icon
+#define WM_SWM_TRAYMSG	WM_APP	// The message ID sent to our window
+#define WM_SWM_EXIT WM_APP + 1 	// Close the window
+#define WM_SWM_INFO WM_APP + 2 	// Show info dialog
 
 //-------------------------------------------------------------------- GLOBALS
 
@@ -86,11 +78,11 @@ void WinPathToLinux(wchar_t *win_path_input, wchar_t *linux_path)
 	// This will NOT work if two different distros are involved.
 	if (wcsncmp(win_path_input, L"\\\\wsl.localhost\\", 16) == 0)
 	{
-		// omit "\\wsl.localhost\<distro>\"
+		// Omit "\\wsl.localhost\<distro>\"
 		ptr = (wchar_t *)win_path_input + 16;
 		ptr = wcschr(ptr, L'\\');
 		wcscpy_s(linux_path, MAX_PATH, ptr);
-		// replace \ with /
+		// Replace \ with /
 		ptr = (wchar_t *)linux_path;
 		while ((ptr = wcschr(ptr, L'\\')) != NULL)
 		{
@@ -130,16 +122,16 @@ void WinPathToLinux(wchar_t *win_path_input, wchar_t *linux_path)
 
 	wcscat_s(linux_path, MAX_PATH, L"/mnt/");
 
-	// append drive letter in lower case
+	// Append drive letter in lower case
 	wchar_t drive[] = L" ";
 	drive[0] = towlower(win_path[0]);
 	wcscat_s(linux_path, MAX_PATH, drive);
 
-	// append remaining path after ":"
+	// Append remaining path after ":"
 	ptr = (wchar_t *)win_path + 2;
 	wcscat_s(linux_path, MAX_PATH, ptr);
 
-	// replace backslashes with slashes
+	// Replace backslashes with slashes
 	ptr = (wchar_t *)linux_path; // +6; // "/mnt/c"
 	while ((ptr = wcschr(ptr, L'\\')) != NULL)
 	{
@@ -226,36 +218,6 @@ INT_PTR CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int CALLBACK WinMainCRTStartup()
 {
 	HINSTANCE hInstance = GetModuleHandle(NULL);
-
-	//wchar_t * lpCmdLine = GetCommandLine();
-	//wchar_t * ptr;
-
-	//if (lpCmdLine[0] == '"')
-	//{
-	//	ptr = wcschr(lpCmdLine + 1, L'"');
-	//	if (ptr)
-	//	{
-	//		ptr++;
-	//		while (iswspace(*ptr))
-	//			ptr++;
-	//		lpCmdLine = ptr;
-	//	}
-	//	else
-	//		lpCmdLine = L"";
-	//}
-	//else
-	//{
-	//	ptr = wcschr(lpCmdLine, L' ');
-	//	if (ptr)
-	//	{
-	//		while (iswspace(*ptr))
-	//			ptr++;
-	//		lpCmdLine = ptr;
-	//	}
-	//	else
-	//		lpCmdLine = L"";
-	//}
-
 #else
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -290,10 +252,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 		*(wcsrchr(szEnvVars, L'\\')) = L'\0';
 	SetEnvironmentVariable(L"_CD_", szEnvVars);
 
-	// Set env var %_CL_% to commandline passed to exe
-	//SetEnvironmentVariable(L"_CL_", lpCmdLine);
-
-	//BOOL bConvertToLinux = GetPrivateProfileInt(L"run", L"linux", FALSE, szIniFile);
 	int nConvertToLinux = GetPrivateProfileInt(L"run", L"linux", -1, szIniFile);
 
 	LPWSTR *szArglist;
@@ -305,7 +263,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPreviousInstance, LPSTR lpC
 		for (int i = 1; i < nArgs; i++)
 		{
 			_itow_s(i, varname, 2, 10);
-			//if (bConvertToLinux)
 			if (i == nConvertToLinux)
 			{
 
