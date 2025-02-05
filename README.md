@@ -10,6 +10,8 @@ wslX is installed and runs solely in user space, it doesn't touch system registr
 
 * Drag-and-drop support - this is wslX's core feature. If a Linux GUI app - e.g. a text editor, image viewer/editor, media player etc. - natively supports dropping files into its window, drag-and-drop actions from Windows explorer (including the desktop) are automatically converted to X drop events, and the dropped file paths are converted to WSL Linux paths (e.g. /mnt/c/...). Windows shortcut files (.LNK) are resolved on the fly. So you can quickly open files in WSL Linux GUI apps by dragging and dropping them from explorer.
 
+* Implementing drag-and-drop also for the opposite direction - from WSL Linux file managers to Windows explorer - would be tricky, but wslX automatically converts filesystem content in the Linux/X-clipboard to CF_HDROP content in the Windows clipboard (again automatically converting paths for the target system), so you can copy files and folders in a WSL Linux file manager and then paste them into a Windows explorer window to copy them (this was successfully tested with Thunar, PCManFM, Dolphin and Nautilus).
+
 * Menu icons in the configurable system tray menu (see screenshot below)
 
 * Automatic creation of "Linux start menus" - including icons - for GUI apps detected in the currently installed WSL distro(s).
@@ -106,8 +108,7 @@ Run `unregister_open_with_linux.cmd` to remove the context menu item from Explor
 
 * wslX is meant for WSL, but if have GUI apps like e.g. Leafpad or SciTE installed inside a local Cygwin installation, you can also use it instead of Cygwin's default X-server to allow drag-and-drop from Explorer to such Cygwin app windows. Since wslX translates local Windows paths to /mnt/c/..., but Cygwin instead needs /cygdrive/c/..., just create a symbolic link inside Cygwin like this (in a Cygwin shell):
     ```
-    $ cd /
-    $ ln -s /cygdrive mnt
+    $ ln -s /cygdrive /mnt
     ```
     Now Cygwin can also handle such /mnt/c/..., /mnt/d/... etc. paths and therefor supports drag-and-drop from Explorer.
     
@@ -149,7 +150,7 @@ In addition to the official instructions, wslX supports the following extra inst
 
 ## Compiling XWin.exe
 
-You need a recent version of Cygwin 64-bit. Open a CMD/PowerShell window, cd to your Cygwin's root folder (e.g. C:\cygwin64) and execute the following to install all required prerequisites:
+You need a recent version of [Cygwin 64-bit](https://www.cygwin.com/setup-x86_64.exe). Open a CMD/PowerShell window, cd to your Cygwin's root folder (e.g. C:\cygwin64) and execute the following to install all required prerequisites:
 ```
 $ setup-x86_64.exe -P binutils,bison,cygport,flex,gcc-core,git,meson,ninja,pkg-config,windowsdriproto,xorgproto,libfontenc-devel,libfreetype-devel,libGL-devel,libnettle-devel,libpixman1-devel,libtirpc-devel,libX11-devel,libXRes-devel,libXau-devel,libXaw-devel,libXdmcp-devel,libXext-devel,libXfont2-devel,libXi-devel,libXinerama-devel,libXmu-devel,libXpm-devel,libXrender-devel,libXtst-devel,libxcb-aux-devel,libxcb-composite-devel,libxcb-ewmh-devel,libxcb-icccm-devel,libxcb-image-devel,libxcb-keysyms-devel,libxcb-randr-devel,libxcb-render-devel,libxcb-render-util-devel,libxcb-shape-devel,libxcb-util-devel,libxcb-xfixes-devel,libxcb-xkb-devel,libxcvt-devel,libxkbfile-devel,font-util,ImageMagick,khronos-opengl-registry,python3-lxml,xkbcomp-devel,xtrans,cmake
 ```
