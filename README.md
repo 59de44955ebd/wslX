@@ -89,6 +89,33 @@ in a CMD shell.
     ```
     Or simply add line `export DISPLAY=:0` to your Cygwin's .bashrc file.
 
+* For appearance settings (like a dark theme etc.) to work accurately in multi-window mode (i.e. without a full desktop environment) many apps in Xfce require `xfsettingsd` to run. You might add a line like this to the root menu section in your system.XWinrc file:
+    ```
+    ...
+    SEPARATOR
+    "Start xfsettingsd" EXEC "wsl.exe dbus-launch xfsettingsd --replace --no-daemon &"
+    SEPARATOR
+    ...
+    ```
+    Add "-d [distro name]" after wsl.exe if you have multiple distros installed.
+
+    Or a submenu that allows to both start and stop xfsettingsd by mouse click:
+
+    ```
+    MENU xfsettingsd {
+        "Start" EXEC "wsl.exe dbus-launch xfsettingsd --replace --no-daemon &"
+        "Stop" EXEC "wsl.exe pkill xfsettingsd; pkill dbus-daemon; pkill dbus-launch"
+    }
+    MENU root {
+        #<DISTROS>
+        ...
+        #</DISTROS>
+        SEPARATOR
+        xfsettingsd MENU xfsettingsd
+        SEPARATOR
+        ...
+    }
+    ```
 ## Configuration (system.XWinrc)
 
 wslX, like other X-servers, is configured by a plain text file called "system.XWinrc", which can be found at:   
@@ -96,7 +123,9 @@ wslX, like other X-servers, is configured by a plain text file called "system.XW
 
 You can open it directly by selecting `wslX -> Edit .XWinrc` from the wslX menu in the system tray.
 
-The general format is documented [here](https://x.cygwin.com/docs/man5/XWinrc.5.html). Since wslX itself is installed and executed only in user space, despite its name and original meaning in this case it's not a system-wide configuration file, but always per user.
+The general format is documented [here](https://x.cygwin.com/docs/man5/XWinrc.5.html). 
+
+Since wslX itself is installed and executed only in user space, despite its name and original meaning in this case it's not a system-wide configuration file, but always per user (resp. per app folder in case of the portable version).
 
 The `EXEC` instruction, which is the core of all menu commands, does not try to use Cygwin's sh command as in the original Cygwin/X implementation, but instead executes `start` in a (hidden) cmd.exe process.
 
