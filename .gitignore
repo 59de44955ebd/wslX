@@ -9,3 +9,5 @@
 /stuff/
 uninstall_list.nsh
 _backup.rar
+/src/xorg-server-21.1.12-1.x86_64/log/
+/src/xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/x86_64-pc-cygwin/

@@ -165,5 +165,8 @@ $ strip xorg-server-21.1.12-1.x86_64/src/xserver-xserver-cygwin-21-1-12-1/x86_64
 ```
 ## To-dos
 
+* Allow to copy files/folders in Linux file managers and paste them into Windows explorer. If there is only a single WSL Linux distro, this is simple and was already implemented in an earlier version of the code. But if there are multiple distros, it gets really tricky, the X-server must know from which distro exactly something was copied since otherwise the paths in the clipboard can't be translated correctly for Windows. I can find out the process id (pid) of the source application, but the pid is not unique across multiple distros. I havn't found a reliable/unambiguous solution yet, any hints are welcome!
+
 * Language localisation (currently menu items are english only)
+
 * Port utilities make-menus.exe and wsl-open-with.exe from Python to C
