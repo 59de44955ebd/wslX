@@ -330,8 +330,6 @@ ReloadPrefs(winPrivScreenPtr pScreenPriv)
     pref.defaultIconName[0] = 0;
     pref.trayIconName[0] = 0;
 
-	pref.defaultDistroName[0] = 0;
-
     for (i = 0; i < pref.iconItems; i++)
         if (pref.icon[i].hicon)
             DestroyIcon((HICON) pref.icon[i].hicon);

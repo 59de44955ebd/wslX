@@ -94,7 +94,6 @@ FORCEEXIT				{ return FORCEEXIT; }
 SILENTEXIT				{ return SILENTEXIT; }
 LEFTBUTTON				{ return LEFTBUTTON; }
 DARK					{ return DARK; }
-DEFAULTDISTRONAME		{ return DEFAULTDISTRONAME; }
 DPI                     { return DPI; }
 XKBLAYOUT               { return XKBLAYOUT; }
 XKBMODEL                { return XKBMODEL; }

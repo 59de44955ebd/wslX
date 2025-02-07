@@ -147,8 +147,6 @@ typedef struct WINPREFS {
 
     Bool fDark;
 
-    char defaultDistroName[NAME_MAX + 1];
-
 } WINPREFS;
 
 /* The global pref settings structure loaded by the winprefyacc.y parser */

@@ -278,125 +278,6 @@ winClipboardSelectionNotifyData(HWND hwnd, xcb_window_t iWindow, xcb_connection_
         xtpText_nitems = nitems;
     }
 
-    if (xtpText_encoding == g_atmUriListType)
-    {
-		// urilist is urlencoded (%XX)
-		if (!urldecode(
-			(const char*)xtpText_value,
-			xtpText_nitems,
-			&pszReturnData,
-			&xtpText_nitems
-		))
-			goto winClipboardFlushXEvents_SelectionNotify_Done;
-
-		// We have to normalize, since e.g. "Thunar" uses CRLF and PCManFM only CR as delimiter.
-		// And only some file managers add a trailing delimiter.
-		winClipboardDOStoUNIX(pszReturnData, xtpText_nitems);
-		xtpText_nitems = strlen(pszReturnData);
-		if (pszReturnData[xtpText_nitems - 1] == 0x0A)
-		{
-			pszReturnData[xtpText_nitems - 1] = 0;
-			xtpText_nitems--;
-		}
-
-		// header = 20 bytes, footer = 2 bytes
-		#define HDROP_EXTRA_SIZE 22
-
-		UINT distro_len = strlen(pref.defaultDistroName);
-
-		wchar_t pwszDistroPrefix[MAX_PATH] = L"\\\\wsl.localhost\\";
-
-		if (distro_len)
-		{
-			MultiByteToWideChar(CP_UTF8, 0, pref.defaultDistroName, -1, pwszDistroPrefix + 16, MAX_PATH - 16);
-		}
-		else
-		{
-			// Default to Debian (arbitrary)
-			wcscat(pwszDistroPrefix, L"Debian");
-			distro_len = 6;
-		}
-
-		// we remove: file:// = 7 bytes
-		// we prepend: \\wsl.localhost\<distroname> = 16 + distro_len bytes
-		// => we need distro_len + 9 extra bytes per file
-		UINT prefix_len = 16 + distro_len;
-
-		char *ptr;
-
-		// Find number of files
-		ptr = (char *)pszReturnData;
-		UINT num_files;
-		for (num_files=1; ptr[num_files]; ptr[num_files]=='\x0A' ? num_files++ : *ptr++);
-
-		// Total size of the CF_HDROP data block
-		// files only without 0x0A seperator:   xtpText_nitems - (num_files - 1)
-
-		UINT total_size = HDROP_EXTRA_SIZE   +   2 * (xtpText_nitems - (num_files - 1))   +   2 * num_files * (distro_len + 9)   +   2 * num_files; //  *                   +  num_files * (2 * (distro_len + 9) - 2);
-
-	    hGlobal = GlobalAlloc(GMEM_MOVEABLE | GMEM_ZEROINIT, total_size);
-	    pszGlobalData = GlobalLock(hGlobal);
-
-		// CF_HDROP "header"
-	    char *ptrGlobalData = (char*)pszGlobalData;
-	    *ptrGlobalData = 0x14;
-	    ptrGlobalData += 16;
-	    *ptrGlobalData = 0x01;
-		ptrGlobalData += 4;
-
-		wchar_t pwszFilename[MAX_PATH + prefix_len];
-
-        char * token = strtok(pszReturnData, "\x0A");
-		while (token != NULL)
-		{
-			// Replace slashes with backslashes
-			ptr = (char *)token;
-		    while ((ptr = strchr(ptr, '/')) != NULL)
-		    {
-		        *ptr++ = '\\';
-		    }
-
-			// Remove leading "file://"
-			ptr = (char *)token;
-			ptr += 7;
-
-			// Is this actually a Windows path in the form /mnt/<letter>/...?
-			if (strncmp(ptr, "\\mnt\\", 5) == 0 && strlen(ptr) > 6 && ptr[6] == '\\')
-			{
-				// For WSL pathes starting with /mnt/<letter>/ we do NOT prepend the distro prefix: /mnt/c/... => c:\...
-				// This creates CF_HDROP data with extra NULL bytes, but Windows Explorer doesn't seem to care
-				ptr[4] = ptr[5]; // move drive letter 1 char to the left
-				ptr[5] = ':'; // replace former drive letter with ':'
-
-				// Convert to wide char
-	    		MultiByteToWideChar(CP_UTF8, 0, ptr + 4, -1, pwszFilename, MAX_PATH);
-			}
-			else
-			{
-				wcscpy(pwszFilename, pwszDistroPrefix);
-
-				// Convert to wide char
-		    	MultiByteToWideChar(CP_UTF8, 0, ptr, -1, pwszFilename + prefix_len, MAX_PATH);
-		    }
-
-			// Move into HDROP data
-			memmove(ptrGlobalData, pwszFilename, wcslen(pwszFilename) * 2);
-			ptrGlobalData += wcslen(pwszFilename) * 2 + 2;
-
-			token = strtok(NULL, "\x0A");
-		}
-
-	    GlobalUnlock(hGlobal);
-
-        SetClipboardData(CF_HDROP, hGlobal);
-
-	    /* Free the data returned from xcb_get_property */
-	    free(reply);
-    	free(pszReturnData);
-
-    	return WIN_XEVENTS_NOTIFY_DATA;
-    }
-
     if (xtpText_encoding == atoms->atomUTF8String) {
         pszReturnData = malloc(xtpText_nitems + 1);
         memcpy(pszReturnData, xtpText_value, xtpText_nitems);
@@ -946,7 +827,7 @@ winClipboardFlushXEvents(HWND hwnd,
 
                 /* Advertise unicode */
                 SetClipboardData(CF_UNICODETEXT, NULL);
-                SetClipboardData(CF_HDROP, NULL);
+               //SetClipboardData(CF_HDROP, NULL);
 
                 /* Release the clipboard */
                 if (!CloseClipboard()) {

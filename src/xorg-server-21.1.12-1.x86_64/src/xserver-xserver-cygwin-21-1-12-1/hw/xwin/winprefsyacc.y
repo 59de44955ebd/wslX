@@ -134,7 +134,6 @@ extern int yylex(void);
 %token SILENTEXIT
 %token LEFTBUTTON
 %token DARK
-%token DEFAULTDISTRONAME
 %token DPI
 %token XKBLAYOUT
 %token XKBMODEL
@@ -178,7 +177,6 @@ command:	defaulticon
 	| silentexit
 	| leftbutton
 	| dark
-	| defaultdistroname
 	| dpi
 	| xkblayout
 	| xkbmodel
@@ -311,9 +309,6 @@ leftbutton:	LEFTBUTTON NEWLINE { pref.fLeftButton = TRUE; }
 	;
 
 dark:	DARK NEWLINE { pref.fDark = TRUE; }
-	;
-
-defaultdistroname: 	DEFAULTDISTRONAME STRING NEWLINE { strncpy(pref.defaultDistroName, $2, NAME_MAX); }
 	;
 
 debug: 	DEBUGOUTPUT STRING NEWLINE { ErrorF("LoadPreferences: %s\n", $2); free($2); }
