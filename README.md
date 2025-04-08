@@ -14,7 +14,7 @@ wslX is installed and runs solely in user space, it doesn't touch system registr
 
 * Automatic creation of "Linux start menus" - including icons - for GUI apps detected in the currently installed WSL distro(s).
 
-* "Open with Linux..." context menu in Explorer that allows to open currently selected files directly in some Linux GUI app. This is not implemented as a shell extension, but just as single item added to HKEY_CURRENT_USER\Software\Classes\*\shell, and therefor lightweight regarding Explorer. The actual  menu is displayed by an independant process.
+* "Open with Linux..." context menu in Explorer that allows to open currently selected files directly in some Linux GUI app. This is not implemented as a shell extension, but just as single item added to HKEY_CURRENT_USER\Software\Classes\\*\shell, and therefor lightweight regarding Explorer. The actual  menu is displayed by an independant process.
 
 * Dark window title bars of Linux GUI app windows, if either Windows currently uses a dark theme or dark mode is explicitly activated in system.XWinrc (see below). This is missing in other Windows X-servers like VcXsrv or Xming.
 
