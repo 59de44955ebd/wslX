@@ -104,7 +104,7 @@ Run `unregister_open_with_linux.cmd` to remove the context menu item from Explor
     }
     ```
 
-* wslX is meant for WSL, but if have GUI apps like e.g. Leafpad or SciTE installed inside a local Cygwin installation, you can also use it instead of Cygwin's default X-server to allow drag-and-drop from Explorer for such Cygwin apps. wslX translates local Windows paths to /mnt/c/..., but Cygwin instead needs /cygdrive/c/... . This can be fixed by a symbolic link inside the Cygwin environment, which can be created by executing this in a Cygwin shell:
+* wslX is meant for WSL, but if you have GUI apps like e.g. Leafpad or SciTE installed inside a local Cygwin installation, you can also use it instead of Cygwin's default X-server to allow drag-and-drop from Explorer for such Cygwin apps. wslX translates local Windows paths to /mnt/c/..., but Cygwin instead needs /cygdrive/c/... . This can be fixed by a symbolic link inside the Cygwin environment, which can be created by executing this in a Cygwin shell:
     ```
     $ ln -s /cygdrive /mnt
     ```
