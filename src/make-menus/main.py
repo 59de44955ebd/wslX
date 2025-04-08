@@ -107,7 +107,7 @@ def find_distro_icon(distro):
             return d + '.ico'
     return 'linux.ico'
 
-# Make sure wslx is running, otherwise find_linux_apps.py would fail
+# Make sure wslX is running, otherwise find_linux_apps.py would fail
 subprocess.run(os.path.join(DATA_DIR, '..', 'wslX.exe'))
 
 if not os.path.isfile(RC_FILE):
@@ -135,7 +135,9 @@ shutil.copyfile(os.path.join(DEFAULT_ICO_DIR, 'pulseaudio.ico'), os.path.join(IC
 menus = []
 menu_data_open = {}
 
-distros = subprocess.run('wsl --list -q', stdout=subprocess.PIPE, encoding='utf-16-le').stdout.rstrip().split('\n')
+os.environ['WSL_UTF8'] = '1'
+distros = subprocess.run('wsl --list -q', stdout=subprocess.PIPE, encoding='utf-8').stdout.rstrip().split('\n')
+
 for distro in sorted(distros, key=str.casefold):
     print('Distro found:', distro)
 

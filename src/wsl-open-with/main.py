@@ -103,59 +103,37 @@ uxtheme = windll.UxTheme
 
 advapi32.RegOpenKeyW.argtypes = (HKEY, LPCWSTR, PHKEY)
 advapi32.RegOpenKeyW.restype = LSTATUS
-
 advapi32.RegCloseKey.argtypes = (HKEY, )
 advapi32.RegCloseKey.restype = LSTATUS
-
 advapi32.RegQueryValueExW.argtypes = (HKEY, LPCWSTR, POINTER(DWORD), POINTER(DWORD), c_void_p, POINTER(DWORD))
 advapi32.RegQueryValueExW.restype = LSTATUS
-
 gdi32.DeleteObject.argtypes = (HANDLE, )
-
 shell32.ShellExecuteW.argtypes = (HWND, LPCWSTR, LPCWSTR, LPCWSTR, LPCWSTR, INT)
-
 user32.AppendMenuW.argtypes = (HMENU, UINT, UINT_PTR, LPCWSTR)
-
 user32.CopyImage.argtypes = (HBITMAP, UINT, INT, INT, UINT)
 user32.CopyImage.restype = HBITMAP
-
 user32.CreateMenu.restype = HMENU
-
 user32.CreatePopupMenu.restype = HMENU
-
 user32.CreateWindowExW.argtypes = (DWORD, LPCWSTR, LPCWSTR, DWORD, INT, INT, INT, INT, HWND, HMENU, HINSTANCE, LPVOID)
 user32.CreateWindowExW.restype = HWND
-
 user32.DefWindowProcW.argtypes = (HWND, c_uint, WPARAM, LPARAM)
-
 user32.DestroyWindow.argtypes = (HWND,)
-
 #user32.DispatchMessageW.argtypes = (POINTER(MSG),)
-
 user32.GetCursorPos.argtypes = (POINTER(POINT),)
-
 user32.GetIconInfo.argtypes = (HICON, LPVOID)
-
 #user32.GetMessageW.argtypes = (POINTER(MSG), HWND, UINT, UINT)
-
 user32.LoadImageW.argtypes = (HINSTANCE, LPCWSTR, UINT, INT, INT, UINT)
 user32.LoadImageW.restype = HANDLE
-
 #user32.MessageBoxW.argtypes = (HWND, LPCWSTR, LPCWSTR, UINT)
-
 user32.PostMessageW.argtypes = (HWND, UINT, LPVOID, LPVOID)
 user32.PostMessageW.restype = LONG_PTR
-
 user32.RegisterClassExW.argtypes = (POINTER(WNDCLASSEX),)
-
 user32.SetForegroundWindow.argtypes = (HWND,)
-
 user32.SetMenuItemInfoW.argtypes = (HMENU, UINT, BOOL, POINTER(MENUITEMINFOW))
-
 user32.TrackPopupMenuEx.argtypes = (HANDLE, UINT, INT, INT, HANDLE, c_void_p)
-
 #user32.TranslateMessage.argtypes = (POINTER(MSG),)
 
+# Those require Windows 10+, but WSL does anyway
 uxtheme.SetPreferredAppMode = uxtheme[135]
 uxtheme.FlushMenuThemes = uxtheme[136]
 
@@ -263,10 +241,13 @@ if __name__ == '__main__':
         os.environ['QT_QPA_PLATFORMTHEME'] = 'qt5ct'
         os.environ['WSLENV'] = 'DISPLAY:QT_QPA_PLATFORMTHEME'
 
+        # Make sure that wslx is running
         shell32.ShellExecuteW(0, None, os.path.join(DATA_DIR, 'xwin', 'bin', 'xwin.exe'),
                 ':0 -silent-dup-error -multiwindow -wgl', os.path.join(DATA_DIR, '..'), 0)
 
+        # Run the selected Linux app
         arg = '"' + f'`wslpath "{sys.argv[1]}"`' + '"'
+        # Using a regexp would be nicer, but this way we don't have to import re just for a single task
         command = exec_dict[idm].replace('%U', arg).replace('%u', arg).replace('%F', arg).replace('%f', arg)
         shell32.ShellExecuteW(0, None, 'wslg.exe', command, None, 0)
 
